@@ -1,5 +1,11 @@
+import FeaturedCategory from '@/lib/components/FeaturedCategory'
+
 function Home() {
-  return <div>Home</div>
+  return (
+    <div>
+      <FeaturedCategory />
+    </div>
+  )
 }
 
 export default Home
