@@ -11,6 +11,9 @@ export default {
         'black-pearl': '#001922',
         'sherpa-blue': '#023E55',
       },
+      backgroundImage: {
+        'footer-texture': "url('./src/lib/assets/images/footer-texture.png')",
+      }
     },
     fontFamily: {
       inter: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
