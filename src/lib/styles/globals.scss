@@ -1,6 +1,6 @@
 html,
 body {
-  @apply font-inter antialiased;
+  @apply text-black-pearl relative w-full font-inter antialiased;
 
   ::-webkit-scrollbar {
     @apply h-2 w-2;
@@ -13,4 +13,8 @@ body {
   ::-webkit-scrollbar-thumb {
     @apply rounded-md bg-slate-300;
   }
+}
+
+input {
+  @apply w-full p-1 text-sm placeholder:text-sm focus:outline-none;
 }
