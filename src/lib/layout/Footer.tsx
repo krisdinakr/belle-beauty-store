@@ -2,9 +2,9 @@ import Logo from '@/lib/assets/images/belle-logo.svg?react'
 
 function Footer() {
   return (
-    <footer className="bg-footer-texture flex h-[396px] w-full flex-col items-center justify-between px-20 pb-2.5 pt-[50px]">
-      <div className="flex w-full items-start justify-between">
-        <div className="w-[368px]">
+    <footer className="bg-footer-texture flex h-[396px] w-full flex-col items-center justify-between p-5 pb-2.5 lg:px-20 lg:pt-[50px]">
+      <div className="flex w-full flex-col items-start justify-between gap-8 lg:flex-row">
+        <div className="w-full lg:w-[368px]">
           <Logo className="h-10 w-[117.09px]" />
           <div className="bg-sherpa-blue mt-[45px] h-[1px] w-full"></div>
         </div>
