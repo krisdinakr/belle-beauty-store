@@ -1,6 +1,6 @@
 html,
 body {
-  @apply text-black-pearl relative w-full font-inter antialiased;
+  @apply text-black-pearl font-inter relative w-full antialiased;
 
   ::-webkit-scrollbar {
     @apply h-2 w-2;
