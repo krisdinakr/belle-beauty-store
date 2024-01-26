@@ -1,13 +1,13 @@
-import ChevronRightIcon from '@/lib/assets/icons/chevron-right.svg?react'
-import MakeupImg from '@/lib/assets/images/makeup.jpg'
-import SkinCareImg from '@/lib/assets/images/skincare.jpg'
-import BathBodyImg from '@/lib/assets/images/bathbody.jpg'
-import FragranceImg from '@/lib/assets/images/fragrance.jpg'
+import ChevronRightIcon from '@/assets/icons/chevron-right.svg?react'
+import MakeupImg from '@/assets/images/makeup.jpg'
+import SkinCareImg from '@/assets/images/skincare.jpg'
+import BathBodyImg from '@/assets/images/bathbody.jpg'
+import FragranceImg from '@/assets/images/fragrance.jpg'
 
 function FeaturedCategory() {
   return (
     <section className="h-auto w-full space-y-8 p-5 lg:px-20 lg:py-[70px]">
-      <h2 className="text-sherpa-blue text-3xl font-bold">Featured Categories</h2>
+      <h2 className="text-3xl font-bold text-sherpa-blue">Featured Categories</h2>
       <div className="grid grid-cols-2 gap-2.5 md:grid-cols-[auto_1fr_1fr_1fr_1fr]">
         <div className="hidden md:flex">
           <ChevronRightIcon className="h-3" />
@@ -26,7 +26,7 @@ function FeaturedCategory() {
                 loading="lazy"
               />
             </div>
-            <h3 className="text-sherpa-blue text-lg font-semibold capitalize">
+            <h3 className="text-lg font-semibold capitalize text-sherpa-blue">
               <span className="font-normal">// </span>
               {category.title}
             </h3>

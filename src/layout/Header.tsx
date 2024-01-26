@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import Logo from '@/lib/assets/images/belle-logo.svg'
-import SearchIcon from '@/lib/assets/icons/search.svg?react'
-import UserIcon from '@/lib/assets/icons/user.svg?react'
-import CartIcon from '@/lib/assets/icons/cart.svg?react'
-import MenuIcon from '@/lib/assets/icons/menu.svg?react'
-import CloseIcon from '@/lib/assets/icons/close.svg?react'
+import Logo from '@/assets/images/belle-logo.svg'
+import SearchIcon from '@/assets/icons/search.svg?react'
+import UserIcon from '@/assets/icons/user.svg?react'
+import CartIcon from '@/assets/icons/cart.svg?react'
+import MenuIcon from '@/assets/icons/menu.svg?react'
+import CloseIcon from '@/assets/icons/close.svg?react'
 import { initialCategories } from '@/data/initialsData'
 
 function Header() {
@@ -15,10 +15,10 @@ function Header() {
 
   return (
     <header
-      className="sticky top-0 w-full bg-white shadow-2xl"
+      className="sticky top-0 w-full  overflow-hidden bg-white shadow"
       onMouseLeave={() => setNavbarFocus(null)}
     >
-      <nav className="flex h-16 w-full items-center justify-between border-b px-5 py-2.5 shadow-md lg:h-[75px] lg:px-20">
+      <nav className="flex h-16 w-full items-center justify-between border-b px-5 py-2.5 lg:h-[75px] lg:px-20">
         <div className="flex items-center gap-20">
           <a
             href="/"
@@ -45,7 +45,7 @@ function Header() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="border-black-pearl relative hidden items-center  rounded border p-1 lg:flex">
+          <div className="relative hidden items-center rounded  border border-black-pearl p-1 lg:flex">
             <SearchIcon className="h-[21px]" />
             <input
               type="text"
@@ -53,8 +53,12 @@ function Header() {
             />
           </div>
 
-          <UserIcon className="h-5 cursor-pointer" />
-          <CartIcon className="h-5 cursor-pointer" />
+          <a href="/sign-in">
+            <UserIcon className="h-5" />
+          </a>
+          <a href="/cart">
+            <CartIcon className="h-5" />
+          </a>
 
           {isDropdown ? (
             <CloseIcon
@@ -72,7 +76,7 @@ function Header() {
 
       {/* Dropdown Mobile */}
       <div
-        className={`absolute h-[calc(100vh-64px)] w-full bg-white shadow transition-all duration-500 ease-out lg:hidden 
+        className={`fixed h-[calc(100vh-64px)] w-full bg-white shadow transition-all duration-500 ease-out lg:hidden 
         ${isDropdown ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="h-full w-full px-5">
@@ -86,7 +90,7 @@ function Header() {
       {/* Dropdown Desktop */}
 
       <div
-        className={`absolute hidden h-fit min-h-[460px] w-full bg-white shadow  ${navbarFocus ? 'lg:flex' : 'hidden'}`}
+        className={`absolute z-10 hidden h-fit min-h-[460px] w-full bg-white shadow ${navbarFocus ? 'lg:flex' : 'hidden'}`}
       >
         <div className="flex w-full gap-[50px] px-20 py-[50px]">
           <li className="w-32 space-y-[30px]">

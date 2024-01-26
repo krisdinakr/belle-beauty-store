@@ -1,4 +1,4 @@
-import FeaturedCategory from '@/lib/components/FeaturedCategory'
+import FeaturedCategory from '@/components/FeaturedCategory'
 
 function Home() {
   return (
