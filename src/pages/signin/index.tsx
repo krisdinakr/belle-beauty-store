@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -15,18 +15,18 @@ import {
 import { Input } from '@/components/ui/input'
 import bgImg from '@/assets/images/login-background.svg'
 import { authService, userService } from '@/services'
-import { AuthDispatchContext } from '@/context/AuthContext'
+import { AuthContext } from '@/context/AuthContext'
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, {
-    message: 'Password must be at least 8 characters.',
+    message: 'Password must be at least 6 characters.',
   }),
 })
 
-function LoginForm() {
+function SignInForm() {
   const navigate = useNavigate()
-  const dispatch = useContext(AuthDispatchContext)
+  const auth = useContext(AuthContext)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,16 +37,13 @@ function LoginForm() {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    authService.login(values).then(({ accessToken }) => {
+    authService.signIn(values).then(({ accessToken }) => {
       if (accessToken) {
-        userService.getProfile(null, accessToken).then((user) => {
-          dispatch &&
-            dispatch({
-              type: 'login',
-              data: user,
-            })
+        localStorage.setItem('token', accessToken)
+        userService.getProfile().then((user) => {
+          navigate('/')
+          auth.current = user
         })
-        navigate('/')
       }
     })
   }
@@ -100,9 +97,9 @@ function LoginForm() {
   )
 }
 
-function Login() {
+function SignIn() {
   return (
-    <section className="flex h-auto w-full md:h-[526px] lg:h-[calc(100vh-64px)]">
+    <section className="flex h-auto w-full md:h-[725px]">
       <div className="hidden h-full w-1/2 md:block">
         <img
           src={bgImg}
@@ -112,15 +109,15 @@ function Login() {
       </div>
       <div className="flex h-full min-h-[50vh] w-full flex-col justify-center p-5 md:w-1/2 md:p-10 lg:p-20">
         <h3 className="text-2xl font-semibold">Sign In</h3>
-        <LoginForm />
+        <SignInForm />
         <div className="my-5 h-[1px] w-full bg-slate-300" />
-        <h3 className="text-2xl font-semibold">Don't have an account?</h3>
+        <h3 className="text-xl font-semibold">Don't have an account?</h3>
         <button className="mt-4 w-full rounded border border-sherpa-blue bg-white py-3 text-sm font-semibold uppercase">
-          <a href="/sign-up">create account</a>
+          <Link to="/sign-up">create account</Link>
         </button>
       </div>
     </section>
   )
 }
 
-export default Login
+export default SignIn

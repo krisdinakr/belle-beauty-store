@@ -1,173 +1,38 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
-interface IData {
-  data: any
-  message: string
-  status: number
-  error: boolean
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+  timeout: 2000,
+  withCredentials: true,
+})
+
+instance.interceptors.request.use((config) => {
+  if (localStorage.getItem('token')) {
+    config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+  }
+  return config
+})
+
+export async function getRequest(url: string, params?: unknown) {
+  const res = await instance.get(url, { params })
+  return res.data
 }
 
-type ResponseData = AxiosResponse<IData>['data']
+export async function postRequest(url: string, data: unknown) {
+  const res = await instance.post(url, data)
+  return res.data
+}
 
-export class BaseService {
-  static instace = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    timeout: 40000,
-  })
+export async function deleteRequest(url: string) {
+  const res = await instance.delete(url)
+  return res.data
+}
 
-  static get(url: string, params: unknown, token?: string): Promise<ResponseData> {
-    this.instace.interceptors.request.use((config) => {
-      if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`
-      }
-
-      return config
-    })
-
-    return new Promise((resolve, reject) =>
-      this.instace
-        .get(url, { params })
-        .then((response) => resolve(response.data))
-        .catch((error) => {
-          if (error.response) {
-            reject({
-              message: error.response.data,
-              code: error.response.status,
-              location: error.config.url,
-            })
-          } else if (error.request) {
-            reject(error.request)
-          } else {
-            reject(error.message)
-          }
-
-          reject(error.config)
-        })
-    )
-  }
-
-  static post(url: string, data: unknown, token?: string): Promise<ResponseData> {
-    this.instace.interceptors.request.use((config) => {
-      if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`
-      }
-
-      return config
-    })
-
-    return new Promise((resolve, reject) =>
-      this.instace
-        .post(url, data)
-        .then((response) => resolve(response.data))
-        .catch((error) => {
-          if (error.response) {
-            reject({
-              message: error.response.data,
-              code: error.response.status,
-              location: error.config.url,
-            })
-          } else if (error.request) {
-            reject(error.request)
-          } else {
-            reject(error.message)
-          }
-
-          reject(error.config)
-        })
-    )
-  }
-
-  static put(url: string, data: unknown, token: string) {
-    axios.interceptors.request.use((config) => {
-      if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`
-
-        return config
-      }
-    })
-
-    return new Promise((resolve, reject) => {
-      axios
-        .put(url, data)
-        .then((response) => resolve(response.data))
-        .catch((error) => {
-          if (error.response) {
-            reject({
-              message: error.response.data,
-              code: error.response.status,
-              location: error.config.url,
-            })
-          } else if (error.request) {
-            reject(error.request)
-          } else {
-            reject(error.message)
-          }
-
-          reject(error.config)
-        })
-    })
-  }
-
-  static delete(url: string, token: string) {
-    axios.interceptors.request.use((config) => {
-      if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`
-
-        return config
-      }
-    })
-
-    return new Promise((resolve, reject) => {
-      axios
-        .delete(url)
-        .then((response) => resolve(response.data))
-        .catch((error) => {
-          if (error.response) {
-            reject({
-              message: error.response.data,
-              code: error.response.status,
-              location: error.config.url,
-            })
-          } else if (error.request) {
-            reject(error.request)
-          } else {
-            reject(error.message)
-          }
-
-          reject(error.config)
-        })
-    })
-  }
-
-  static patch(url: string, data: unknown, token: string) {
-    axios.interceptors.request.use((config) => {
-      if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`
-
-        return config
-      }
-    })
-
-    return new Promise((resolve, reject) => {
-      axios
-        .patch(url, data)
-        .then((response) => resolve(response.data))
-        .catch((error) => {
-          if (error.response) {
-            reject({
-              message: error.response.data,
-              code: error.response.status,
-              location: error.config.url,
-            })
-          } else if (error.request) {
-            reject(error.request)
-          } else {
-            reject(error.message)
-          }
-
-          reject(error.config)
-        })
-    })
-  }
+export async function patch(url: string, data: unknown) {
+  const res = await instance.patch(url, data)
+  return res.data
 }

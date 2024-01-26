@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, createContext, useReducer } from 'react'
+import { ReactNode, createContext, useRef, MutableRefObject } from 'react'
 
 interface IAuthProviderProps {
   children: ReactNode
@@ -11,38 +11,33 @@ interface IUser {
   lastName: string
 }
 
-export const AuthContext = createContext<IUser | null>(null)
+// interface IToken {
+//   value: string | null
+//   setToken: (token: string) => void
+// }
 
-export const AuthDispatchContext = createContext<Dispatch<{ type: string; data: IUser }> | null>(
-  null
-)
+// interface IAuth {
+//   token: IToken
+//   user: IUser | null
+//   reset: () => void
+// }
+
+// const auth = {
+//   token: {
+//     value: localStorage.getItem('token'),
+//     setToken: (token: string) => localStorage.setItem('token', token),
+//   },
+//   user: null,
+//   reset: () => {
+//     localStorage.removeItem('token')
+//     auth.user = null
+//   },
+// }
+
+export const AuthContext = createContext<MutableRefObject<IUser | null>>({ current: null })
 
 export function AuthProvider({ children }: IAuthProviderProps) {
-  const [user, dispatch] = useReducer(userReducer, null)
+  const user = useRef<IUser | null>(null)
 
-  return (
-    <AuthContext.Provider value={user}>
-      <AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
-    </AuthContext.Provider>
-  )
-}
-
-function userReducer(user: IUser | null, action: { type: string; data: IUser }) {
-  switch (action.type) {
-    case 'login': {
-      return {
-        ...user,
-        id: action.data.id,
-        email: action.data.email,
-        firstName: action.data.firstName,
-        lastName: action.data.lastName,
-      }
-    }
-    case 'logout': {
-      return null
-    }
-    default: {
-      return null
-    }
-  }
+  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
 }

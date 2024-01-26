@@ -1,17 +1,37 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
+import { AuthContext } from '@/context/AuthContext'
+import { authService } from '@/services'
+import { initialCategories } from '@/data/initialsData'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import Logo from '@/assets/images/belle-logo.svg'
 import SearchIcon from '@/assets/icons/search.svg?react'
 import UserIcon from '@/assets/icons/user.svg?react'
 import CartIcon from '@/assets/icons/cart.svg?react'
 import MenuIcon from '@/assets/icons/menu.svg?react'
 import CloseIcon from '@/assets/icons/close.svg?react'
-import { initialCategories } from '@/data/initialsData'
+import { LogOutIcon } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 
 function Header() {
   const [isDropdown, setIsDropdown] = useState<boolean>(false)
   const [navbarFocus, setNavbarFocus] = useState<string | null>(null)
   const categories = initialCategories[0].childIds
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(categories[1])
+  const auth = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  async function handleLogOut() {
+    if (localStorage.getItem('token')) {
+      const res = await authService.signOut()
+      if (res.status === 200) {
+        localStorage.removeItem('token')
+        auth.current = null
+        navigate('/')
+      }
+    }
+  }
 
   return (
     <header
@@ -20,8 +40,8 @@ function Header() {
     >
       <nav className="flex h-16 w-full items-center justify-between border-b px-5 py-2.5 lg:h-[75px] lg:px-20">
         <div className="flex items-center gap-20">
-          <a
-            href="/"
+          <Link
+            to="/"
             onMouseEnter={() => setNavbarFocus(null)}
           >
             <img
@@ -29,7 +49,7 @@ function Header() {
               alt="Belle Logo"
               className="h-6 lg:h-8"
             />
-          </a>
+          </Link>
 
           <li className="hidden list-none items-center gap-7 text-lg font-medium lg:flex">
             <ul
@@ -53,12 +73,33 @@ function Header() {
             />
           </div>
 
-          <a href="/sign-in">
-            <UserIcon className="h-5" />
-          </a>
-          <a href="/cart">
+          {auth.current ? (
+            <HoverCard>
+              <HoverCardTrigger className="cursor-pointer">
+                <div className="flex items-center justify-center gap-0.5">
+                  {auth.current.firstName}
+                  <ChevronDown className="h-5" />
+                </div>
+              </HoverCardTrigger>
+              <HoverCardContent>
+                <button
+                  type="button"
+                  onClick={handleLogOut}
+                  className="flex items-center gap-0.5 text-sm"
+                >
+                  <LogOutIcon className="h-5 text-red-500" />
+                  Log Out
+                </button>
+              </HoverCardContent>
+            </HoverCard>
+          ) : (
+            <Link to="/sign-in">
+              <UserIcon className="h-5" />
+            </Link>
+          )}
+          <Link to="/cart">
             <CartIcon className="h-5" />
-          </a>
+          </Link>
 
           {isDropdown ? (
             <CloseIcon
@@ -88,7 +129,6 @@ function Header() {
       </div>
 
       {/* Dropdown Desktop */}
-
       <div
         className={`absolute z-10 hidden h-fit min-h-[460px] w-full bg-white shadow ${navbarFocus ? 'lg:flex' : 'hidden'}`}
       >
