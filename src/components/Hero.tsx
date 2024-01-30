@@ -82,7 +82,7 @@ const heroItems = [
     image: HeroTwo,
     imagePosition: 'right',
     bgColor:
-      'bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400',
+      'bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-violet-300 via-violet-200 to-violet-300',
   },
   {
     id: 3,
