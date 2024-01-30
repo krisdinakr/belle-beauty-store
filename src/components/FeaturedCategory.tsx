@@ -7,7 +7,7 @@ import FragranceImg from '@/assets/images/fragrance.jpg'
 function FeaturedCategory() {
   return (
     <section className="h-auto w-full space-y-8 p-5 lg:px-20 lg:py-[70px]">
-      <h2 className="text-3xl font-bold text-sherpa-blue">Featured Categories</h2>
+      <h2 className="text-2xl font-bold text-sherpa-blue sm:text-3xl">Featured Categories</h2>
       <div className="grid grid-cols-2 gap-2.5 md:grid-cols-[auto_1fr_1fr_1fr_1fr]">
         <div className="hidden md:flex">
           <ChevronRightIcon className="h-3" />
