@@ -35,7 +35,7 @@ function Header() {
 
   return (
     <header
-      className="sticky top-0 w-full  overflow-hidden bg-white shadow"
+      className="sticky top-0 z-50 w-full overflow-hidden bg-white shadow"
       onMouseLeave={() => setNavbarFocus(null)}
     >
       <nav className="flex h-16 w-full items-center justify-between border-b px-5 py-2.5 lg:h-[75px] lg:px-20">
