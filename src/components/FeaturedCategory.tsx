@@ -3,6 +3,7 @@ import MakeupImg from '@/assets/images/makeup.jpg'
 import SkinCareImg from '@/assets/images/skincare.jpg'
 import BathBodyImg from '@/assets/images/bathbody.jpg'
 import FragranceImg from '@/assets/images/fragrance.jpg'
+import { Link } from 'react-router-dom'
 
 function FeaturedCategory() {
   return (
@@ -14,9 +15,9 @@ function FeaturedCategory() {
           <ChevronRightIcon className="h-3" />
         </div>
         {categories.map((category) => (
-          <a
-            href="/#"
+          <Link
             key={category.id}
+            to={`/category/${category.slug}`}
           >
             <div className="h-44 w-full md:h-80">
               <img
@@ -30,7 +31,7 @@ function FeaturedCategory() {
               <span className="font-normal">// </span>
               {category.title}
             </h3>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
@@ -39,25 +40,29 @@ function FeaturedCategory() {
 
 export default FeaturedCategory
 
-const categories: { id: number; title: string; image: string }[] = [
+const categories: { id: number; title: string; image: string; slug: string }[] = [
   {
     id: 0,
     title: 'makeup',
     image: MakeupImg,
+    slug: 'makeup',
   },
   {
     id: 1,
     title: 'skin care',
     image: SkinCareImg,
+    slug: 'skin-care',
   },
   {
     id: 2,
     title: 'bath & body',
     image: BathBodyImg,
+    slug: 'bath-&-body',
   },
   {
     id: 3,
     title: 'fragrance',
     image: FragranceImg,
+    slug: 'fragrance',
   },
 ]
