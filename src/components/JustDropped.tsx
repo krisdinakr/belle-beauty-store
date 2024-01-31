@@ -33,7 +33,9 @@ function JustDropped() {
                 className="relative w-full snap-center"
                 key={i._id}
               >
-                <ProductItem data={i} />
+                <div className="h-[23rem] w-56 sm:h-[28rem] sm:w-[20.5rem]">
+                  <ProductItem data={i} />
+                </div>
               </ul>
             ))}
           </div>

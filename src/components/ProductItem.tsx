@@ -7,23 +7,25 @@ function ProductItem({
   data: IProductItemProps
 }) {
   const imgCover = images.filter((i) => i.isCover)[0]
+  const defaultCombination = combinations[0]
 
   return (
-    <Link to={`/${slug}`}>
-      <div className="relative h-[23rem] w-56 sm:h-[28rem] sm:w-[20.5rem]">
-        <div className="h-[78%] w-full ">
-          <img
-            src={imgCover.url}
-            alt="product"
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-        </div>
-        <div className="flex h-[22%] w-full flex-col pt-2">
-          <h2 className="font-bold sm:text-xl">{brand.name}</h2>
-          <h3 className="truncate font-open-sans sm:text-xl">{name}</h3>
-          <p className="font-semibold sm:text-xl">{combinations[0].price}</p>
-        </div>
+    <Link
+      to={`/${slug}`}
+      className="relative h-full w-full"
+    >
+      <div className="h-[78%] max-h-[23rem] w-full max-w-[20.5rem]">
+        <img
+          src={imgCover?.url}
+          alt="product"
+          className="h-full w-full object-contain"
+          loading="lazy"
+        />
+      </div>
+      <div className="flex h-[22%] w-full flex-col pt-2">
+        <h2 className="truncate font-bold sm:text-xl">{brand.name}</h2>
+        <h3 className="truncate font-open-sans sm:text-xl">{name}</h3>
+        <p className="font-semibold sm:text-xl">{defaultCombination?.price}</p>
       </div>
     </Link>
   )
