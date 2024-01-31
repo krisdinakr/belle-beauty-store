@@ -11,3 +11,16 @@ export enum UserApi {
 export enum CollectionsApi {
   collections = '/collections',
 }
+
+export enum CategoryApi {
+  category = '/categories',
+  childrenCategory = '/categories/children',
+}
+
+export enum BrandApi {
+  brand = '/brands',
+}
+
+export enum SearchApi {
+  search = '/search',
+}
