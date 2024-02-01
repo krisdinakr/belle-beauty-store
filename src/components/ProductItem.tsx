@@ -14,18 +14,20 @@ function ProductItem({
       to={`/${slug}`}
       className="relative h-full w-full"
     >
-      <div className="h-[78%] max-h-[23rem] w-full max-w-[20.5rem]">
-        <img
-          src={imgCover?.url}
-          alt="product"
-          className="h-full w-full object-contain"
-          loading="lazy"
-        />
-      </div>
-      <div className="flex h-[22%] w-full flex-col pt-2">
-        <h2 className="truncate font-bold sm:text-xl">{brand.name}</h2>
-        <h3 className="truncate font-open-sans sm:text-xl">{name}</h3>
-        <p className="font-semibold sm:text-xl">{defaultCombination?.price}</p>
+      <div className="rounded p-2 hover:shadow">
+        <div className="h-[78%] max-h-[23rem] w-full max-w-[20.5rem]">
+          <img
+            src={imgCover?.url}
+            alt="product"
+            className="h-full w-full object-contain"
+            loading="lazy"
+          />
+        </div>
+        <div className="flex h-[22%] w-full flex-col pt-2">
+          <h2 className="truncate font-bold sm:text-xl">{brand.name}</h2>
+          <h3 className="truncate font-open-sans sm:text-xl">{name}</h3>
+          <p className="font-semibold sm:text-xl">{defaultCombination?.price}</p>
+        </div>
       </div>
     </Link>
   )
