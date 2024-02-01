@@ -1,26 +1,30 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
-import MenuContext from './MenuContext'
+import MenuContextWrapper from './MenuContextWrapper'
 
-function MenuItem({ title }: { title: string }) {
-  const [dropdown, setDropdown] = useState<boolean>(false)
-
+function MenuItem({
+  title,
+  activeMenu,
+  setActiveMenu,
+}: {
+  title: string
+  activeMenu: string
+  setActiveMenu: Dispatch<SetStateAction<string>>
+}) {
   return (
-    <ul
-      className="group static"
-      onMouseEnter={() => setDropdown(true)}
-    >
+    <ul className="group static">
       <div
         className="cursor-pointer p-4"
         aria-haspopup="menu"
-        aria-expanded={dropdown ? true : false}
+        aria-expanded={activeMenu ? true : false}
       >
         {title}
       </div>
 
-      <MenuContext
-        dropdown={dropdown}
-        setDropdown={setDropdown}
+      <MenuContextWrapper
+        title={title}
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
       />
     </ul>
   )

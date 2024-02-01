@@ -1,14 +1,34 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 import { SearchIcon, UserCircle2Icon, ShoppingBagIcon } from 'lucide-react'
 import MenuItem from '@/components/MenuItem'
 
 function Navbar() {
+  const location = useLocation()
+  const [activeMenu, setActiveMenu] = useState('')
+
+  useEffect(() => {
+    setActiveMenu('')
+  }, [location])
+
   return (
     <nav className="static ml-20 hidden w-full justify-between text-lg font-medium lg:flex">
       <li className="flex items-center gap-3">
-        <MenuItem title="Category" />
-        <MenuItem title="Brands" />
+        <div onMouseOver={() => setActiveMenu('Category')}>
+          <MenuItem
+            title="Category"
+            activeMenu={activeMenu}
+            setActiveMenu={setActiveMenu}
+          />
+        </div>
+        <div onMouseOver={() => setActiveMenu('Brands')}>
+          <MenuItem
+            title="Brands"
+            activeMenu={activeMenu}
+            setActiveMenu={setActiveMenu}
+          />
+        </div>
       </li>
 
       <div className="flex items-center gap-3">
