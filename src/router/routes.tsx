@@ -5,6 +5,7 @@ const Home = React.lazy(() => import('@/pages/home'))
 const SignIn = React.lazy(() => import('@/pages/signin'))
 const SignUp = React.lazy(() => import('@/pages/signup'))
 const Category = React.lazy(() => import('@/pages/category'))
+const Brand = React.lazy(() => import('@/pages/brand'))
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -22,5 +23,9 @@ export const routes: Array<PathRouteProps> = [
   {
     path: '/category/:slug',
     element: <Category />,
+  },
+  {
+    path: '/brand/:slug',
+    element: <Brand />,
   },
 ]

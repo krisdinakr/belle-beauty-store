@@ -15,6 +15,7 @@ export enum CollectionsApi {
 export enum CategoryApi {
   category = '/categories',
   childrenCategory = '/categories/children',
+  distinctBrand = '/categories/distinct/products',
 }
 
 export enum BrandApi {
