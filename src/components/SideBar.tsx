@@ -7,7 +7,15 @@ import {
 import { ICategory, ICategoryWithChildren } from '@/types/Category'
 import { Link } from 'react-router-dom'
 
-function SideBar({ data, activeMenu }: { data: ICategoryWithChildren; activeMenu: ICategory }) {
+function SideBar({
+  data,
+  activeMenu,
+  isUseLink,
+}: {
+  data: ICategoryWithChildren
+  activeMenu?: ICategory
+  isUseLink?: boolean
+}) {
   let defaultValue
   if (activeMenu && activeMenu.parents && activeMenu.parents.length === 2) {
     defaultValue = activeMenu.name
@@ -18,31 +26,41 @@ function SideBar({ data, activeMenu }: { data: ICategoryWithChildren; activeMenu
 
   return (
     <aside>
-      <h3 className="pb-4 text-2xl font-medium uppercase">{data?.name}</h3>
-      <Accordion
-        type="single"
-        collapsible
-        defaultValue={defaultValue}
-      >
-        {data?.children?.map((i) => (
-          <AccordionItem
-            key={i._id}
-            value={i.name}
-          >
-            <Link to={`/category/${i.slug}`}>
-              <AccordionTrigger>{i.name}</AccordionTrigger>
-            </Link>
-            {i.children.map((c) => (
-              <Link
-                to={`/category/${c.slug}`}
-                key={c._id}
-              >
-                <AccordionContent className="cursor-pointer">{c.name}</AccordionContent>
-              </Link>
-            ))}
-          </AccordionItem>
-        ))}
-      </Accordion>
+      <div key={data._id}>
+        <h3 className="pb-4 text-2xl font-medium uppercase">{data.name}</h3>
+        <Accordion
+          type="single"
+          collapsible
+          defaultValue={defaultValue!}
+        >
+          {data?.children?.map((i) => (
+            <AccordionItem
+              key={i._id}
+              value={i.name}
+            >
+              {isUseLink ? (
+                <Link to={`/category/${i.slug}`}>
+                  <AccordionTrigger>{i.name}</AccordionTrigger>
+                </Link>
+              ) : (
+                <AccordionTrigger>{i.name}</AccordionTrigger>
+              )}
+              {i.children.map((c) => (
+                <AccordionContent
+                  key={c._id}
+                  className="cursor-pointer"
+                >
+                  {isUseLink ? (
+                    <Link to={`/category/${c.slug}`}>{c.name}</Link>
+                  ) : (
+                    <span>{c.name}</span>
+                  )}
+                </AccordionContent>
+              ))}
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
     </aside>
   )
 }

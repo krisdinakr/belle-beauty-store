@@ -1,9 +1,8 @@
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import useSWR from 'swr'
 
 import { getRequest } from '@/services/baseService'
-import { CategoryContext } from '@/context/CategoryContext'
 import { CategoryApi, SearchApi } from '@/constants'
 import { IProductItemProps } from '@/types/Products'
 
@@ -13,9 +12,10 @@ import SidebarSkeleton from '@/components/skeleton/SidebarSkeleton'
 import ProductList from '@/components/ProductList'
 import ProductListSkeleton from '@/components/skeleton/ProductListSkeleton'
 import { ICategoryWithChildren } from '@/types/Category'
+import { useNavigationContext } from '@/hooks/useNavigation'
 
 function Category() {
-  const categories = useContext(CategoryContext)
+  const { categories } = useNavigationContext()
   const { slug } = useParams()
 
   const { data: detailCategory, isLoading: isLoadingCategory } = useSWR(
@@ -63,6 +63,7 @@ function Category() {
               <SideBar
                 data={selectedCategory}
                 activeMenu={breadCrumbsData}
+                isUseLink
               />
             ) : (
               <SidebarSkeleton />

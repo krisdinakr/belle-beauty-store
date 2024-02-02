@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 
-import { CategoryContext } from '@/context/CategoryContext'
 import { ICategoryWithChildren } from '@/types/Category'
+import { useNavigationContext } from '@/hooks/useNavigation'
 
 function MenuContextCategory() {
-  const rootCategory = useContext(CategoryContext)
+  const { categories: rootCategory } = useNavigationContext()
 
   const [selectedMenu, setSelectedMenu] = useState<ICategoryWithChildren | null>(
     rootCategory?.children ? rootCategory.children[0] : null

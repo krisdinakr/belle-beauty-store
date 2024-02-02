@@ -3,16 +3,16 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import Layout from '@/layout'
 import Routings from '@/router/Routings'
 import { AuthProvider } from '@/context/AuthContext'
-import { CategoryProvider } from '@/context/CategoryContext'
+import { NavigationProvider } from '@/context/NavigationContext'
 
 const App = () => (
   <Router>
     <AuthProvider>
-      <CategoryProvider>
+      <NavigationProvider>
         <Layout>
           <Routings />
         </Layout>
-      </CategoryProvider>
+      </NavigationProvider>
     </AuthProvider>
   </Router>
 )
