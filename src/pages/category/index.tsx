@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useSWR from 'swr'
 
 import { getRequest } from '@/services/baseService'
 import { useNavigationContext } from '@/hooks/useNavigation'
 import BreadCrumbs from '@/components/BreadCrumbs'
-import SideBar from '@/components/SideBar'
+import Sidebar from '@/components/Sidebar'
 import SidebarSkeleton from '@/components/skeleton/SidebarSkeleton'
 import ProductList from '@/components/ProductList'
 import ProductListSkeleton from '@/components/skeleton/ProductListSkeleton'
@@ -15,6 +15,7 @@ import { ICategoryWithChildren } from '@/types/Category'
 
 function Category() {
   const { categories } = useNavigationContext()
+  const navigate = useNavigate()
   const { slug } = useParams()
   const encodeSlug = useMemo(() => {
     if (slug) return encodeURIComponent(String(slug))
@@ -56,6 +57,8 @@ function Category() {
     return []
   }, [detailCategory])
 
+  const handleChangeRoute = (url: string) => navigate(`/category/${url}`)
+
   return (
     <section className="min-h-screen overflow-hidden p-5 sm:px-20 sm:py-5">
       <div className="pb-5 pt-2.5">
@@ -66,10 +69,10 @@ function Category() {
         <div className="mx-auto my-0 flex w-full gap-12">
           <div className="hidden w-2/12 min-w-40 sm:block">
             {selectedCategory ? (
-              <SideBar
+              <Sidebar
                 data={selectedCategory}
                 activeMenu={breadCrumbsData}
-                isUseLink
+                handleChangeRoute={handleChangeRoute}
               />
             ) : (
               <SidebarSkeleton />

@@ -1,25 +1,18 @@
-import clsx from 'clsx'
-import { Link, useLocation } from 'react-router-dom'
-
-import { ICategory, ICategoryWithChildren } from '@/types/Category'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
 import { memo, useMemo } from 'react'
 
-const SideBar = memo(function SideBar({
+import { Accordion } from '@/components/ui/accordion'
+import SidebarHeader from '@/components/SidebarHeader'
+import { ICategory, ICategoryWithChildren } from '@/types/Category'
+
+const Sidebar = memo(function Sidebar({
   data,
   activeMenu,
-  isUseLink,
+  handleChangeRoute,
 }: {
   data: ICategoryWithChildren
   activeMenu?: ICategory
-  isUseLink?: boolean
+  handleChangeRoute: (i: string) => void
 }) {
-  const { pathname } = useLocation()
   const defaultValue = useMemo(() => {
     if (activeMenu && activeMenu.parents && activeMenu.parents.length === 2) {
       return activeMenu.name
@@ -40,30 +33,11 @@ const SideBar = memo(function SideBar({
           defaultValue={defaultValue!}
         >
           {data?.children?.map((i) => (
-            <AccordionItem
+            <SidebarHeader
+              data={i}
               key={i._id}
-              value={i.name}
-            >
-              {isUseLink ? (
-                <Link to={`/category/${i.slug}`}>
-                  <AccordionTrigger>{i.name}</AccordionTrigger>
-                </Link>
-              ) : (
-                <AccordionTrigger>{i.name}</AccordionTrigger>
-              )}
-              {i.children.map((c) => (
-                <AccordionContent
-                  key={c._id}
-                  className={clsx('cursor-pointer', pathname.includes(c.slug) ? 'font-medium' : '')}
-                >
-                  {isUseLink ? (
-                    <Link to={`/category/${c.slug}`}>{c.name}</Link>
-                  ) : (
-                    <span>{c.name}</span>
-                  )}
-                </AccordionContent>
-              ))}
-            </AccordionItem>
+              handleClick={handleChangeRoute}
+            />
           ))}
         </Accordion>
       </div>
@@ -71,4 +45,4 @@ const SideBar = memo(function SideBar({
   )
 })
 
-export default SideBar
+export default Sidebar
