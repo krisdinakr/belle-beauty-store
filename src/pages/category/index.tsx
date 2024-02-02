@@ -3,29 +3,30 @@ import { useParams } from 'react-router-dom'
 import useSWR from 'swr'
 
 import { getRequest } from '@/services/baseService'
-import { CategoryApi, SearchApi } from '@/constants'
-import { IProductItemProps } from '@/types/Products'
-
+import { useNavigationContext } from '@/hooks/useNavigation'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideBar from '@/components/SideBar'
 import SidebarSkeleton from '@/components/skeleton/SidebarSkeleton'
 import ProductList from '@/components/ProductList'
 import ProductListSkeleton from '@/components/skeleton/ProductListSkeleton'
+import { CategoryApi, SearchApi } from '@/constants'
+import { IProductItemProps } from '@/types/Products'
 import { ICategoryWithChildren } from '@/types/Category'
-import { useNavigationContext } from '@/hooks/useNavigation'
 
 function Category() {
   const { categories } = useNavigationContext()
   const { slug } = useParams()
+  const encodeSlug = useMemo(() => {
+    if (slug) return encodeURIComponent(String(slug))
+  }, [slug])
+  const filter = JSON.stringify({ category: encodeSlug })
 
   const { data: detailCategory, isLoading: isLoadingCategory } = useSWR(
-    () => `${CategoryApi.category}?slug=${slug}`,
+    `${CategoryApi.category}?slug=${encodeSlug}`,
     getRequest
   )
 
-  const { data, isLoading } = useSWR(SearchApi.search, (url) =>
-    getRequest(url, { filter: JSON.stringify({ category: slug }) })
-  )
+  const { data, isLoading } = useSWR(`${SearchApi.search}?filter=${filter}`, getRequest)
 
   const productData: IProductItemProps[] = useMemo(() => {
     if (!data?.error && data?.data && Array.isArray(data?.data)) {
@@ -35,7 +36,12 @@ function Category() {
   }, [data])
 
   const selectedCategory: ICategoryWithChildren | undefined = useMemo(() => {
-    if (!detailCategory?.error && detailCategory?.data && Array.isArray(detailCategory.data)) {
+    if (
+      !detailCategory?.error &&
+      detailCategory?.data &&
+      Array.isArray(detailCategory.data) &&
+      detailCategory.data[0]
+    ) {
       if (detailCategory.data[0].parents.length === 1) {
         return categories?.children?.find((i) => i._id === detailCategory.data[0]._id)
       }
