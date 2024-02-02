@@ -1,13 +1,16 @@
+import clsx from 'clsx'
+import { Link, useLocation } from 'react-router-dom'
+
+import { ICategory, ICategoryWithChildren } from '@/types/Category'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { ICategory, ICategoryWithChildren } from '@/types/Category'
-import { Link } from 'react-router-dom'
+import { memo, useMemo } from 'react'
 
-function SideBar({
+const SideBar = memo(function SideBar({
   data,
   activeMenu,
   isUseLink,
@@ -16,13 +19,16 @@ function SideBar({
   activeMenu?: ICategory
   isUseLink?: boolean
 }) {
-  let defaultValue
-  if (activeMenu && activeMenu.parents && activeMenu.parents.length === 2) {
-    defaultValue = activeMenu.name
-  } else if (activeMenu && activeMenu.parents && activeMenu.parents.length > 2) {
-    const index = activeMenu.parents.length - 1
-    defaultValue = activeMenu.parents[index].name
-  }
+  const { pathname } = useLocation()
+  const defaultValue = useMemo(() => {
+    if (activeMenu && activeMenu.parents && activeMenu.parents.length === 2) {
+      return activeMenu.name
+    } else if (activeMenu && activeMenu.parents && activeMenu.parents.length > 2) {
+      const index = activeMenu.parents.length - 1
+      return activeMenu.parents[index].name
+    }
+    return undefined
+  }, [activeMenu])
 
   return (
     <aside>
@@ -48,7 +54,7 @@ function SideBar({
               {i.children.map((c) => (
                 <AccordionContent
                   key={c._id}
-                  className="cursor-pointer"
+                  className={clsx('cursor-pointer', pathname.includes(c.slug) ? 'font-medium' : '')}
                 >
                   {isUseLink ? (
                     <Link to={`/category/${c.slug}`}>{c.name}</Link>
@@ -63,6 +69,6 @@ function SideBar({
       </div>
     </aside>
   )
-}
+})
 
 export default SideBar
