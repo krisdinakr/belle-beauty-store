@@ -39,7 +39,7 @@ export default {
         'sherpa-blue': '#023E55',
       },
       backgroundImage: {
-        'footer-texture': "url('./src/assets/images/footer-texture.png')",
+        'footer-texture': "url('/footer-texture.png')",
       }
     },
     fontFamily: {
