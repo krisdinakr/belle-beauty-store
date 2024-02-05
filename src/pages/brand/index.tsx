@@ -7,6 +7,7 @@ import ProductList from '@/components/ProductList'
 import ProductListSkeleton from '@/components/skeleton/ProductListSkeleton'
 import BrandBanner from '@/components/BrandBanner'
 import SidebarSkeleton from '@/components/skeleton/SidebarSkeleton'
+import Sidebar from '@/components/Sidebar'
 import { IBrand } from '@/types/Brand'
 import { IProductItemProps } from '@/types/Products'
 import { ICategoryWithChildren } from '@/types/Category'
@@ -55,8 +56,8 @@ function Brand() {
     return null
   }, [categories])
 
-  // const handleChangeRoute = (menu: string) =>
-  //   setFilter({ brand: encodeSlug, category: encodeURIComponent(menu) })
+  const handleChangeRoute = (menu: string) =>
+    setFilter({ brand: encodeSlug, category: encodeURIComponent(menu) })
 
   return (
     <section className="min-h-screen overflow-hidden p-5 sm:px-20 sm:py-5">
@@ -68,11 +69,10 @@ function Brand() {
             {isLoadingCategories ? (
               <SidebarSkeleton />
             ) : (
-              // <SideBar
-              //   data={categoryData!}
-              //   handleChangeRoute={handleChangeRoute}
-              // />
-              <div>sidebar</div>
+              <Sidebar
+                data={categoryData!}
+                handleChangeRoute={handleChangeRoute}
+              />
             )}
           </div>
 

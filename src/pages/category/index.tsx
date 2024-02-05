@@ -6,6 +6,7 @@ import { getRequest } from '@/services/baseService'
 import { useNavigationContext } from '@/hooks/useNavigation'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SidebarSkeleton from '@/components/skeleton/SidebarSkeleton'
+import Sidebar from '@/components/Sidebar'
 import ProductList from '@/components/ProductList'
 import ProductListSkeleton from '@/components/skeleton/ProductListSkeleton'
 import { CategoryApi, SearchApi } from '@/constants'
@@ -56,7 +57,7 @@ function Category() {
     return []
   }, [detailCategory])
 
-  // const handleChangeRoute = (url: string) => navigate(`/category/${url}`)
+  const handleChangeRoute = (url: string) => navigate(`/category/${url}`)
 
   return (
     <section className="min-h-screen overflow-hidden p-5 sm:px-20 sm:py-5">
@@ -68,12 +69,11 @@ function Category() {
         <div className="mx-auto my-0 flex w-full gap-12">
           <div className="hidden w-2/12 min-w-40 sm:block">
             {selectedCategory ? (
-              // <Sidebar
-              //   data={selectedCategory}
-              //   activeMenu={breadCrumbsData}
-              //   handleChangeRoute={handleChangeRoute}
-              // />
-              <div>sidebar</div>
+              <Sidebar
+                data={selectedCategory}
+                activeMenu={breadCrumbsData}
+                handleChangeRoute={handleChangeRoute}
+              />
             ) : (
               <SidebarSkeleton />
             )}
