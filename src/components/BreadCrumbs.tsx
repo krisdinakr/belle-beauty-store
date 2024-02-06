@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
 import { ICategory } from '@/types/Category'
 
-function BreadCrumbs({ data }: { data: ICategory }) {
-  const breadCrumbsData = [...data.parents, data]
+type BreadCrumbsProps = Pick<ICategory, '_id' | 'name' | 'slug'>
 
+function BreadCrumbs({ data }: { data: BreadCrumbsProps[] }) {
   return (
     <nav className="w-full">
       <ul className="flex">
-        {breadCrumbsData.map((i, index) => (
+        {data.map((i, index) => (
           <li key={i._id}>
-            {index + 1 < breadCrumbsData.length ? (
+            {index + 1 < data.length ? (
               <>
                 <Link
                   to={index === 0 ? '/' : `/category/${i.slug}`}

@@ -11,7 +11,7 @@ import ProductList from '@/components/ProductList'
 import ProductListSkeleton from '@/components/skeleton/ProductListSkeleton'
 import { CategoryApi, SearchApi } from '@/constants'
 import { IProductItemProps } from '@/types/Products'
-import { ICategoryWithChildren } from '@/types/Category'
+import { ICategory, ICategoryWithChildren } from '@/types/Category'
 
 function Category() {
   const { categories } = useNavigationContext()
@@ -52,7 +52,8 @@ function Category() {
 
   const breadCrumbsData = useMemo(() => {
     if (detailCategory?.data && detailCategory?.data && Array.isArray(detailCategory?.data)) {
-      return detailCategory?.data[0]
+      const data: ICategory = detailCategory?.data[0]
+      return [...data.parents, data]
     }
     return []
   }, [detailCategory])
@@ -71,7 +72,6 @@ function Category() {
             {selectedCategory ? (
               <Sidebar
                 data={selectedCategory}
-                activeMenu={breadCrumbsData}
                 handleChangeRoute={handleChangeRoute}
               />
             ) : (
