@@ -25,3 +25,7 @@ export enum BrandApi {
 export enum SearchApi {
   search = '/search',
 }
+
+export enum ProductApi {
+  product = '/products',
+}

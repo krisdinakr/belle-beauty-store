@@ -13,7 +13,7 @@ export interface IImage {
   url: string
 }
 
-interface ICombination {
+export interface ICombination {
   _id: string
   attributes: IAttributes
   images: IImage[]
