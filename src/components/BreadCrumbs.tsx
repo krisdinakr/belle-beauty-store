@@ -6,7 +6,7 @@ type BreadCrumbsProps = Pick<ICategory, '_id' | 'name' | 'slug'>
 function BreadCrumbs({ data }: { data: BreadCrumbsProps[] }) {
   return (
     <nav className="w-full">
-      <ul className="flex">
+      <ul className="flex w-full overflow-hidden">
         {data.map((i, index) => (
           <li key={i._id}>
             {index + 1 < data.length ? (
@@ -20,7 +20,7 @@ function BreadCrumbs({ data }: { data: BreadCrumbsProps[] }) {
                 <span className="mx-2 text-neutral-500">/</span>
               </>
             ) : (
-              <span className="text-neutral-500">{i.name}</span>
+              <span className="truncate text-neutral-500">{i.name}</span>
             )}
           </li>
         ))}
