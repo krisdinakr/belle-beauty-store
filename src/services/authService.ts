@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuthApi } from '@/constants'
 import { postRequest, getRequest } from './baseService'
 import { toast } from '@/components/ui/use-toast'
@@ -13,11 +14,18 @@ export const authService = {
   signIn: async function (payload: Pick<IUserPayload, 'email' | 'password'>) {
     try {
       const res = await postRequest(AuthApi.SignIn, payload)
+      if (res.status !== 200) {
+        toast({
+          title: 'Uh oh! Something went wrong.',
+          description: res.message,
+        })
+        return
+      }
       return res.data
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        description: error.message || error.response?.data?.message,
       })
     }
   },

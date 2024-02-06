@@ -5,7 +5,7 @@ export enum AuthApi {
 }
 
 export enum UserApi {
-  Me = '/users/profile',
+  Me = '/me',
 }
 
 export enum CollectionsApi {

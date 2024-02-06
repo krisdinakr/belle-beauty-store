@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useRef, MutableRefObject } from 'react'
+import { ReactNode, createContext, useState, Dispatch, SetStateAction } from 'react'
 
 interface IAuthProviderProps {
   children: ReactNode
@@ -11,33 +11,15 @@ interface IUser {
   lastName: string
 }
 
-// interface IToken {
-//   value: string | null
-//   setToken: (token: string) => void
-// }
+interface IAuthContextProps {
+  user: IUser | null
+  setUser: Dispatch<SetStateAction<IUser | null>>
+}
 
-// interface IAuth {
-//   token: IToken
-//   user: IUser | null
-//   reset: () => void
-// }
-
-// const auth = {
-//   token: {
-//     value: localStorage.getItem('token'),
-//     setToken: (token: string) => localStorage.setItem('token', token),
-//   },
-//   user: null,
-//   reset: () => {
-//     localStorage.removeItem('token')
-//     auth.user = null
-//   },
-// }
-
-export const AuthContext = createContext<MutableRefObject<IUser | null>>({ current: null })
+export const AuthContext = createContext<IAuthContextProps>({ user: null, setUser: () => {} })
 
 export function AuthProvider({ children }: IAuthProviderProps) {
-  const user = useRef<IUser | null>(null)
+  const [user, setUser] = useState<IUser | null>(null)
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
 }

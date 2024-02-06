@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -15,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import bgImg from '@/assets/images/login-background.webp'
 import { authService, userService } from '@/services'
-import { AuthContext } from '@/context/AuthContext'
+import { useAuthContext } from '@/hooks/useAuth'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,7 +25,7 @@ const formSchema = z.object({
 
 function SignInForm() {
   const navigate = useNavigate()
-  const auth = useContext(AuthContext)
+  const auth = useAuthContext()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,16 +35,16 @@ function SignInForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    authService.signIn(values).then(({ accessToken }) => {
-      if (accessToken) {
-        localStorage.setItem('token', accessToken)
-        userService.getProfile().then((user) => {
-          navigate('/')
-          auth.current = user
-        })
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const res = await authService.signIn(values)
+    if (res.accessToken) {
+      localStorage.setItem('token', res.accessToken)
+      const user = await userService.getProfile()
+      if (user) {
+        navigate('/')
+        auth.setUser(user)
       }
-    })
+    }
   }
 
   return (

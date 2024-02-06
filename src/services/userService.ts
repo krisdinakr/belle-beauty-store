@@ -1,17 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserApi } from '@/constants'
 import { getRequest } from './baseService'
 import { toast } from '@/components/ui/use-toast'
 
 export const userService = {
   getProfile: async function () {
-    const res = await getRequest(UserApi.Me)
+    try {
+      const res = await getRequest(UserApi.Me)
+      if (res.error) {
+        toast({
+          title: 'Uh oh! Something went wrong.',
+          description: res.message,
+        })
+        return
+      }
 
-    toast({
-      className: 'bg-green-200',
-      title: 'Scheduled: Catch up',
-      description: 'Friday, February 10, 2023 at 5:57 PM',
-    })
-
-    return res.data
+      return res.data
+    } catch (error: any) {
+      toast({
+        title: 'Uh oh! Something went wrong.',
+        description: error.message || error.response?.data?.message,
+      })
+    }
   },
 }
