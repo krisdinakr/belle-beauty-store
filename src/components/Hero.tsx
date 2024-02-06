@@ -1,3 +1,6 @@
+import clsx from 'clsx'
+import { Link } from 'react-router-dom'
+
 import {
   Carousel,
   CarouselContent,
@@ -5,12 +8,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-
 import HeroOne from '@/assets/images/hero-1.webp'
 import HeroTwo from '@/assets/images/hero-2.webp'
 import HeroThree from '@/assets/images/hero-3.webp'
-import clsx from 'clsx'
-import { Link } from 'react-router-dom'
 
 function Hero() {
   return (
@@ -21,7 +21,7 @@ function Hero() {
           className="h-full w-full"
         >
           <CarouselContent className="h-full w-full">
-            {heroItems.map((i) => (
+            {heroItems.map((i, index) => (
               <CarouselItem key={i.id}>
                 <div
                   className={clsx(
@@ -45,7 +45,7 @@ function Hero() {
                     <img
                       src={i.image}
                       alt={i.title}
-                      loading="lazy"
+                      fetchpriority={index === 0 ? 'high' : 'low'}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
