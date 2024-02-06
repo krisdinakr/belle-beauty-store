@@ -8,7 +8,7 @@ interface IAttributes {
   }
 }
 
-interface IImage {
+export interface IImage {
   isCover: boolean
   url: string
 }
