@@ -35,13 +35,13 @@ const ProductImageSlider = memo(function ProductImageSlider({
   }, [images])
 
   return (
-    <div className="relative h-[400px] w-[400px]">
-      <div className="h-full w-full bg-blue-300">
+    <div className="relative h-auto w-full lg:w-[400px]">
+      <div className="h-auto min-h-[400px] w-full">
         <picture>
           <source type="image/webp" />
           <img
             src={images[selectedIndex].url}
-            className="aspect-square"
+            className="aspect-square h-[400px] w-auto object-contain object-center"
             loading="lazy"
             decoding="async"
             alt="Builder.io drag and drop interface"
