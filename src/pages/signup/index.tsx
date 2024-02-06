@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import bgImg from '@/assets/images/login-background.svg'
+import bgImg from '@/assets/images/login-background.webp'
 import { authService } from '@/services'
 
 const formSchema = z.object({

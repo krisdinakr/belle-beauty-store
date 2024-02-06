@@ -6,9 +6,9 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 
-import HeroOne from '@/assets/images/hero-1.png'
-import HeroTwo from '@/assets/images/hero-2.png'
-import HeroThree from '@/assets/images/hero-3.png'
+import HeroOne from '@/assets/images/hero-1.webp'
+import HeroTwo from '@/assets/images/hero-2.webp'
+import HeroThree from '@/assets/images/hero-3.webp'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 

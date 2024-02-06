@@ -1,8 +1,8 @@
 import ChevronRightIcon from '@/assets/icons/chevron-right.svg?react'
-import MakeupImg from '@/assets/images/makeup.jpg'
-import SkinCareImg from '@/assets/images/skincare.jpg'
-import BathBodyImg from '@/assets/images/bathbody.jpg'
-import FragranceImg from '@/assets/images/fragrance.jpg'
+import MakeupImg from '@/assets/images/makeup.webp'
+import SkinCareImg from '@/assets/images/skincare.webp'
+import BathBodyImg from '@/assets/images/bathbody.webp'
+import FragranceImg from '@/assets/images/fragrance.webp'
 import { Link } from 'react-router-dom'
 
 function FeaturedCategory() {

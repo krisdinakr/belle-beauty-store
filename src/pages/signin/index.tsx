@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import bgImg from '@/assets/images/login-background.svg'
+import bgImg from '@/assets/images/login-background.webp'
 import { authService, userService } from '@/services'
 import { AuthContext } from '@/context/AuthContext'
 
