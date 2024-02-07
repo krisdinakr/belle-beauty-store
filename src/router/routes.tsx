@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from 'react'
 import type { PathRouteProps } from 'react-router-dom'
 
@@ -7,6 +8,7 @@ const SignUp = React.lazy(() => import('@/pages/signup'))
 const Category = React.lazy(() => import('@/pages/category'))
 const Brand = React.lazy(() => import('@/pages/brand'))
 const ProductDetail = React.lazy(() => import('@/pages/product-detail'))
+const Cart = React.lazy(() => import('@/pages/cart'))
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -32,5 +34,12 @@ export const routes: Array<PathRouteProps> = [
   {
     path: '/:slug',
     element: <ProductDetail />,
+  },
+]
+
+export const protectedRoutes: Array<PathRouteProps> = [
+  {
+    path: '/cart',
+    element: <Cart />,
   },
 ]
