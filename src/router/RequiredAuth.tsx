@@ -2,10 +2,10 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuthContext } from '@/hooks/useAuth'
 
 function RequiredAuth() {
-  const { user } = useAuthContext()
+  const auth = useAuthContext()
   const location = useLocation()
 
-  return user ? (
+  return auth?.isAuth ? (
     <Outlet />
   ) : (
     <Navigate

@@ -42,7 +42,12 @@ function SignInForm() {
       const user = await userService.getProfile()
       if (user) {
         navigate('/')
-        auth.setUser(user)
+        localStorage.setItem('user', `${user.firstName} ${user.lastName}`)
+        auth?.setAuth({
+          token: res.accesToken,
+          user: `${user.firstName} ${user.lastName}`,
+          isAuth: true,
+        })
       }
     }
   }

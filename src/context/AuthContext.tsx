@@ -1,25 +1,30 @@
-import { ReactNode, createContext, useState, Dispatch, SetStateAction } from 'react'
+import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react'
 
 interface IAuthProviderProps {
   children: ReactNode
 }
 
-interface IUser {
-  id: string
-  email: string
-  firstName: string
-  lastName: string
+interface IAuth {
+  user: string | null
+  token: string | null
+  isAuth: boolean
 }
 
-interface IAuthContextProps {
-  user: IUser | null
-  setUser: Dispatch<SetStateAction<IUser | null>>
+interface IAuthContextProps extends IAuth {
+  setAuth: Dispatch<SetStateAction<IAuth>>
 }
 
-export const AuthContext = createContext<IAuthContextProps>({ user: null, setUser: () => {} })
+const user = localStorage.getItem('user')
+const token = localStorage.getItem('token')
+
+export const AuthContext = createContext<IAuthContextProps | null>(null)
 
 export function AuthProvider({ children }: IAuthProviderProps) {
-  const [user, setUser] = useState<IUser | null>(null)
+  const [auth, setAuth] = useState({
+    user,
+    token,
+    isAuth: !!user && !!token,
+  })
 
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ ...auth, setAuth }}>{children}</AuthContext.Provider>
 }

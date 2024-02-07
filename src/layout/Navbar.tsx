@@ -45,8 +45,8 @@ function Navbar() {
           />
         </div>
 
-        {auth.user ? (
-          <p>{auth.user.firstName}</p>
+        {auth?.isAuth ? (
+          <p>{auth.user}</p>
         ) : (
           <Link to="/sign-in">
             <UserCircle2Icon className="h-5 text-black-pearl" />
