@@ -8,6 +8,9 @@ import ShadeAttribute from './ShadeAttribute'
 import SizeAttribute from './SizeAttribute'
 import ProductInfoTab from './ProductInfoTab'
 import { Button } from './ui/button'
+import { toast } from './ui/use-toast'
+import { ICartPaylod } from '@/types/Cart'
+import { userService } from '@/services'
 
 function ProductInfo({ product }: { product: IProductItemProps }) {
   const [quantity, setQuantity] = useState(1)
@@ -47,6 +50,32 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
     if (targetAttribute) {
       setSelectedAttribute(targetAttribute)
       setQuantity(1)
+    }
+  }
+
+  const handleAddProductToCart = async () => {
+    if (!selectedAttribute) {
+      toast({
+        className: 'bg-sky-100 text-black-pearl',
+        title: 'Please select product variant!',
+      })
+    } else {
+      const payload: ICartPaylod = {
+        action: 'add',
+        product: product._id,
+        combination: selectedAttribute?._id || '',
+        quantity,
+      }
+      await userService.updateCart(payload)
+    }
+  }
+
+  const handleBuyProduct = () => {
+    if (!selectedAttribute) {
+      toast({
+        className: 'bg-sky-100 text-black-pearl',
+        title: 'Please select product variant!',
+      })
     }
   }
 
@@ -113,31 +142,47 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
       <div className="mt-3 flex w-full items-center justify-between gap-20 lg:mt-8 lg:justify-start">
         <p className="w-20 text-sm uppercase tracking-wide">Quantity</p>
         <div className="flex w-[150px] items-center justify-between rounded-sm border border-slate-300 px-3 py-1">
-          <MinusIcon
-            className={clsx(
-              'w-4',
-              quantity > 1 ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-            )}
+          <button
+            role="button"
             onClick={handleDecreaseQuantity}
-          />
+          >
+            <MinusIcon
+              className={clsx(
+                'w-4',
+                quantity > 1 ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+              )}
+            />
+          </button>
           <p className="select-none">{quantity}</p>
-          <PlusIcon
-            className={clsx(
-              'w-4',
-              selectedAttribute?.stock || product.combinations[0].stock > quantity
-                ? 'cursor-pointer'
-                : 'cursor-not-allowed opacity-50'
-            )}
+          <button
+            role="button"
             onClick={handleIncreaseQuantity}
-          />
+          >
+            <PlusIcon
+              className={clsx(
+                'w-4',
+                selectedAttribute?.stock || product.combinations[0].stock > quantity
+                  ? 'cursor-pointer'
+                  : 'cursor-not-allowed opacity-50'
+              )}
+            />
+          </button>
         </div>
       </div>
 
       <div className="mt-3 flex w-full select-none items-center gap-5 lg:mt-8">
-        <Button className="rounded border border-sherpa-blue bg-white uppercase text-black-pearl hover:bg-twilight-blue/50">
+        <Button
+          className="rounded border border-sherpa-blue bg-white uppercase text-black-pearl hover:bg-twilight-blue/50"
+          onClick={handleAddProductToCart}
+        >
           add to cart
         </Button>
-        <Button className="rounded bg-sherpa-blue uppercase">buy now</Button>
+        <Button
+          className="rounded bg-sherpa-blue uppercase"
+          onClick={handleBuyProduct}
+        >
+          buy now
+        </Button>
       </div>
 
       <div className="mt-10 w-full select-none lg:mt-20">

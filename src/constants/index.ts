@@ -6,6 +6,7 @@ export enum AuthApi {
 
 export enum UserApi {
   Me = '/me',
+  Cart = '/users/me/carts',
 }
 
 export enum CollectionsApi {
