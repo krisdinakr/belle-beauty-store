@@ -8,6 +8,7 @@ import { IProductItemProps } from '@/types/Products'
 import ProductImageSlider from '@/components/ProductImageSlider'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ProductInfo from '@/components/ProductInfo'
+import ProductDetailSkeleton from '@/components/skeleton/ProductDetailSkeleton'
 
 function ProductDetail() {
   const { slug } = useParams()
@@ -37,19 +38,18 @@ function ProductDetail() {
     return []
   }, [detailProduct])
 
-  if (isLoadingProduct) {
-    return <p>loading</p>
-  }
-
   return (
     <section className="mx-auto min-h-screen w-full overflow-hidden p-5 sm:py-5 lg:w-10/12">
       <div className="pb-5 pt-2.5">{breadCrumbsData && <BreadCrumbs data={breadCrumbsData} />}</div>
 
-      <div className="mt-10 flex w-full flex-col gap-20 pb-5 lg:flex-row">
-        <ProductImageSlider images={detailProduct.images} />
+      {isLoadingProduct && <ProductDetailSkeleton />}
+      {!isLoadingProduct && (
+        <div className="mt-10 flex w-full flex-col gap-20 pb-5 lg:flex-row">
+          <ProductImageSlider images={detailProduct.images} />
 
-        <ProductInfo product={detailProduct} />
-      </div>
+          <ProductInfo product={detailProduct} />
+        </div>
+      )}
     </section>
   )
 }
