@@ -9,7 +9,7 @@ import SizeAttribute from './SizeAttribute'
 import ProductInfoTab from './ProductInfoTab'
 import { Button } from './ui/button'
 import { toast } from './ui/use-toast'
-import { ICartPaylod } from '@/types/Cart'
+import { ICartPayload } from '@/types/Cart'
 import { userService } from '@/services'
 
 function ProductInfo({ product }: { product: IProductItemProps }) {
@@ -60,7 +60,7 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
         title: 'Please select product variant!',
       })
     } else {
-      const payload: ICartPaylod = {
+      const payload: ICartPayload = {
         action: 'add',
         product: product._id,
         combination: selectedAttribute?._id || '',

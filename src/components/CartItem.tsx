@@ -1,9 +1,49 @@
-import { ICart } from '@/types/Cart'
-import { formatCurrency } from '@/utils'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { KeyedMutator } from 'swr'
+import clsx from 'clsx'
 import { MinusIcon, PlusIcon, Trash2Icon } from 'lucide-react'
-import { useMemo } from 'react'
 
-function CartItem({ data }: { data: ICart }) {
+import { ICart, ICartPayload } from '@/types/Cart'
+import { formatCurrency } from '@/utils'
+import { useDebounce } from '@/hooks/useDebounce'
+import { userService } from '@/services'
+
+function CartItem({
+  data,
+  refreshData,
+  handleCheckedOneCart,
+  selectedCart,
+}: {
+  data: ICart
+  refreshData: KeyedMutator<undefined>
+  handleCheckedOneCart: (checked: boolean, cart: ICart) => void
+  selectedCart: ICart[]
+}) {
+  const didMount = useRef(true)
+  const [quantity, setQuantity] = useState<number>(data.quantity)
+  const debouncedQuantity = useDebounce(quantity, 100)
+
+  useEffect(() => {
+    if (didMount.current) {
+      didMount.current = false
+      return
+    }
+
+    const payload: ICartPayload = {
+      action: 'update',
+      id: data._id,
+      combination: data.combination._id,
+      quantity: debouncedQuantity,
+    }
+
+    const updateCart = async () => {
+      const res = await userService.updateCart(payload)
+      if (!res.error) refreshData()
+    }
+
+    updateCart()
+  }, [data._id, data.combination._id, debouncedQuantity, refreshData])
+
   const image = useMemo(() => {
     if (data.product.images && Array.isArray(data.product.images)) {
       const image = data.product.images.find((i) => i.isCover)
@@ -11,6 +51,7 @@ function CartItem({ data }: { data: ICart }) {
     }
     return ''
   }, [data])
+
   const combination = useMemo(() => {
     if (data.combination.attributes) {
       const keys = Object.keys(data.combination.attributes)
@@ -22,6 +63,21 @@ function CartItem({ data }: { data: ICart }) {
     }
   }, [data])
 
+  const handleDeleteCart = async () => {
+    const res = await userService.deleteOneCart(data._id)
+    if (res) refreshData()
+  }
+
+  const handlePlusQuantity = async () => {
+    if (data.combination.stock > debouncedQuantity) {
+      setQuantity((q) => q + 1)
+    }
+  }
+
+  const handleMinusQuantity = () => {
+    if (debouncedQuantity > 1) setQuantity((q) => q - 1)
+  }
+
   return (
     <div className="group relative px-5">
       <div className="flex w-full items-start gap-2 border-b py-4 group-last:border-none">
@@ -31,6 +87,8 @@ function CartItem({ data }: { data: ICart }) {
             name={data._id}
             id={data._id}
             className="h-4 w-4 cursor-pointer"
+            onChange={(e) => handleCheckedOneCart(e.target.checked, data)}
+            checked={!!selectedCart.find((i) => i._id === data._id)}
           />
         </div>
 
@@ -52,13 +110,29 @@ function CartItem({ data }: { data: ICart }) {
           <div className="mt-3.5 flex w-full items-center justify-between">
             <p className="text-sm font-semibold">{formatCurrency(data.combination.price)}</p>
             <div className="flex items-center gap-5">
-              <Trash2Icon className="w-5 cursor-pointer text-gray-400" />
-              <div className="flex items-center gap-4">
-                <button className="h-[30px] w-[30px] rounded border border-black-pearl text-center ">
+              <button onClick={handleDeleteCart}>
+                <Trash2Icon className="w-5 text-gray-400" />
+              </button>
+              <div className="flex items-center gap-2.5">
+                <button
+                  className={clsx(
+                    'h-[30px] w-[30px] rounded border border-black-pearl text-center',
+                    debouncedQuantity > 1 ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+                  )}
+                  onClick={handleMinusQuantity}
+                >
                   <MinusIcon className="mx-auto w-4" />
                 </button>
-                <span className="select-none">2</span>
-                <button className="h-[30px] w-[30px] rounded bg-sherpa-blue text-center text-white">
+                <span className="w-8 select-none text-center">{debouncedQuantity}</span>
+                <button
+                  className={clsx(
+                    'h-[30px] w-[30px] rounded bg-sherpa-blue text-center text-white',
+                    data.combination.stock > debouncedQuantity
+                      ? 'cursor-pointer'
+                      : 'cursor-not-allowed opacity-50'
+                  )}
+                  onClick={handlePlusQuantity}
+                >
                   <PlusIcon className="mx-auto w-4" />
                 </button>
               </div>
