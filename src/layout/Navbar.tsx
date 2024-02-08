@@ -3,9 +3,11 @@ import { Link, useLocation } from 'react-router-dom'
 
 import { useAuthContext } from '@/hooks/useAuth'
 import MenuItem from '@/components/MenuItem'
-import { SearchIcon, UserCircle2Icon, ShoppingBagIcon } from 'lucide-react'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
+import { SearchIcon, UserCircle2Icon, ShoppingBagIcon, ChevronDown, LogOutIcon } from 'lucide-react'
 import MenuIcon from '@/assets/icons/menu.svg?react'
 import CloseIcon from '@/assets/icons/close.svg?react'
+import { authService } from '@/services'
 
 function Navbar() {
   const location = useLocation()
@@ -16,6 +18,21 @@ function Navbar() {
   useEffect(() => {
     setActiveMenu('')
   }, [location])
+
+  const handleLogOut = async () => {
+    if (auth?.isAuth) {
+      const res = await authService.signOut()
+      if (!res.error) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        auth.setAuth({
+          user: null,
+          token: null,
+          isAuth: false,
+        })
+      }
+    }
+  }
 
   return (
     <nav className="static ml-20 flex w-full justify-between text-lg font-medium">
@@ -46,7 +63,24 @@ function Navbar() {
         </div>
 
         {auth?.isAuth ? (
-          <p>{auth.user}</p>
+          <HoverCard>
+            <HoverCardTrigger className="cursor-pointer">
+              <div className="flex items-center justify-center gap-0.5">
+                {auth.user}
+                <ChevronDown className="h-5" />
+              </div>
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <button
+                type="button"
+                onClick={handleLogOut}
+                className="flex items-center gap-0.5 text-sm"
+              >
+                <LogOutIcon className="h-5 text-red-500" />
+                Log Out
+              </button>
+            </HoverCardContent>
+          </HoverCard>
         ) : (
           <Link to="/sign-in">
             <UserCircle2Icon className="h-5 text-black-pearl" />
@@ -57,6 +91,7 @@ function Navbar() {
           <ShoppingBagIcon className="h-5 text-black-pearl" />
         </Link>
 
+        {/* Mobile Navbar */}
         {isDropdown ? (
           <div className="relative">
             <div className="fixed bottom-0 left-0 right-0 top-0 bg-white">
