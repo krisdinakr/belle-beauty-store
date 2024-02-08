@@ -9,8 +9,8 @@ export interface ICart {
   quantity: number
 }
 
-export interface ICartPaylod {
-  action: 'add' | 'plus' | 'minus'
+export interface ICartPayload {
+  action: 'add' | 'update'
   id?: string
   product?: string
   combination: string
