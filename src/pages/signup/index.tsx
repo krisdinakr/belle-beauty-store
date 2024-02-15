@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
 import * as z from 'zod'
 
 import {
@@ -14,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input'
 import bgImg from '@/assets/images/login-background.webp'
 import { authService } from '@/services'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,6 +28,7 @@ const formSchema = z.object({
 
 function SignUpForm() {
   const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,12 +74,26 @@ function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Password"
-                  {...field}
-                />
-              </FormControl>
+              <div className="relative">
+                <FormControl>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Password"
+                    {...field}
+                  />
+                </FormControl>
+                {showPassword ? (
+                  <EyeIcon
+                    className="absolute bottom-2 right-2.5 cursor-pointer text-slate-300"
+                    onClick={() => setShowPassword(false)}
+                  />
+                ) : (
+                  <EyeOffIcon
+                    className="absolute bottom-2 right-2.5 cursor-pointer text-slate-300"
+                    onClick={() => setShowPassword(true)}
+                  />
+                )}
+              </div>
               <FormMessage />
             </FormItem>
           )}
