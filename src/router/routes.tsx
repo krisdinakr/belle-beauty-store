@@ -9,6 +9,7 @@ const Category = React.lazy(() => import('@/pages/category'))
 const Brand = React.lazy(() => import('@/pages/brand'))
 const ProductDetail = React.lazy(() => import('@/pages/product-detail'))
 const Cart = React.lazy(() => import('@/pages/cart'))
+const MyAccount = React.lazy(() => import('@/pages/my-account'))
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -41,5 +42,9 @@ export const protectedRoutes: Array<PathRouteProps> = [
   {
     path: '/cart',
     element: <Cart />,
+  },
+  {
+    path: '/my-account',
+    element: <MyAccount />,
   },
 ]
