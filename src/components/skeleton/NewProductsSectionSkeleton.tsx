@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-function JustDroppedSkeleton() {
+function NewProductsSectionSkeleton() {
   return (
     <section className="h-[23rem] w-full space-y-8 overflow-hidden p-5 sm:h-[28rem] lg:px-20 lg:py-[70px]">
       <Skeleton className="h-8 w-40 sm:h-9 sm:w-52" />
@@ -18,4 +18,4 @@ function JustDroppedSkeleton() {
   )
 }
 
-export default JustDroppedSkeleton
+export default NewProductsSectionSkeleton

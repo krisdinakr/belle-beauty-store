@@ -1,12 +1,12 @@
 import Hero from '@/components/Hero'
 import FeaturedCategory from '@/components/FeaturedCategory'
-import JustDropped from '@/components/JustDropped'
+import NewProductsSection from '@/components/NewProductsSection'
 
 function Home() {
   return (
     <div>
       <Hero />
-      <JustDropped />
+      <NewProductsSection />
       <FeaturedCategory />
     </div>
   )
