@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { IAttributeItem } from '@/types/Products'
 
-function SizeAttribute({
+function VariantAttribute({
   attributes,
   selected,
   handleSelectAttribute,
@@ -12,19 +12,21 @@ function SizeAttribute({
 }) {
   return (
     <div className="mt-3 flex w-full items-start justify-between gap-20 lg:mt-8 lg:justify-start">
-      <p className="w-20 text-sm uppercase tracking-wide">Size</p>
+      <p className="w-20 text-sm uppercase tracking-wide">Variant</p>
       <div className="w-full space-y-3">
-        <ul className="flex w-full gap-2">
-          {attributes.map((size) => (
+        <ul className="flex w-full flex-wrap gap-2">
+          {attributes.map((variant) => (
             <li
               className={clsx(
                 'flex w-max cursor-pointer items-center justify-between rounded border px-5 py-1.5 text-xs',
-                selected ? 'border-sherpa-blue text-sherpa-blue' : 'border-slate-300'
+                selected && selected.name === variant.name
+                  ? 'border-sherpa-blue text-sherpa-blue'
+                  : 'border-slate-300'
               )}
-              key={size.name}
-              onClick={() => handleSelectAttribute('size', size.name)}
+              key={variant.name}
+              onClick={() => handleSelectAttribute('variant', variant.name)}
             >
-              <span>{size.name}</span>
+              <span>{variant.name}</span>
             </li>
           ))}
         </ul>
@@ -33,4 +35,4 @@ function SizeAttribute({
   )
 }
 
-export default SizeAttribute
+export default VariantAttribute

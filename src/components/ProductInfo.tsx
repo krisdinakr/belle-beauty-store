@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 
-import { ICombination, IProductItemProps } from '@/types/Products'
+import { IAttributeItem, ICombination, IProductItemProps } from '@/types/Products'
 import { formatCurrency } from '@/utils'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import ShadeAttribute from './ShadeAttribute'
@@ -11,23 +12,45 @@ import { Button } from './ui/button'
 import { toast } from './ui/use-toast'
 import { ICartPayload } from '@/types/Cart'
 import { userService } from '@/services'
+import { useAuthContext } from '@/hooks/useAuth'
+import VariantAttribute from './VariantAttribute'
 
 function ProductInfo({ product }: { product: IProductItemProps }) {
+  const auth = useAuthContext()
+  const navigate = useNavigate()
   const [quantity, setQuantity] = useState(1)
   const [selectedAttribute, setSelectedAttribute] = useState<ICombination | null>(null)
 
-  const { keyAttributes, valueAttributes } = useMemo(() => {
-    if (
-      product &&
-      product.combinations &&
-      product.combinations.length > 0 &&
-      product.combinations[0].attributes
-    ) {
-      const keyAttributes = Object.keys(product.combinations[0].attributes)
-      const valueAttributes = Object.values(product.combinations[0].attributes)
-      return { keyAttributes, valueAttributes }
+  const { shadeAttribute, sizeAttribute, variantAttribute } = useMemo(() => {
+    const shadeAttribute: IAttributeItem[] = []
+    const sizeAttribute: IAttributeItem[] = []
+    const variantAttribute: IAttributeItem[] = []
+    if (product?.combinations && product.combinations.length > 0) {
+      product.combinations.forEach((combination) => {
+        if (combination.attributes && combination.attributes.shade) {
+          if (
+            shadeAttribute.length === 0 ||
+            (shadeAttribute.length > 1 &&
+              shadeAttribute.find((i) => i.name !== combination.attributes.shade.name))
+          ) {
+            shadeAttribute.push(combination.attributes.shade)
+          }
+        }
+        if (combination.attributes && combination.attributes.size) {
+          if (
+            sizeAttribute.length === 0 ||
+            (sizeAttribute.length > 1 &&
+              sizeAttribute.find((i) => i.name !== combination.attributes.size.name))
+          ) {
+            sizeAttribute.push(combination.attributes.size)
+          }
+        }
+        if (combination.attributes && combination.attributes.variant) {
+          variantAttribute.push(combination.attributes.variant)
+        }
+      })
     }
-    return { keyAttributes: null, valueAttributes: null }
+    return { shadeAttribute, sizeAttribute, variantAttribute }
   }, [product])
 
   const handleIncreaseQuantity = () => {
@@ -43,10 +66,8 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
     }
   }
 
-  const handleSelectAttribute = (attribute: string, value: { [key: string]: string | number }) => {
-    const targetAttribute = product.combinations.find(
-      (i) => i.attributes[attribute].value === value.value
-    )
+  const handleSelectAttribute = (type: 'shade' | 'size' | 'variant', name: string | number) => {
+    const targetAttribute = product.combinations.find((i) => i.attributes[type].name === name)
     if (targetAttribute) {
       setSelectedAttribute(targetAttribute)
       setQuantity(1)
@@ -59,6 +80,8 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
         className: 'bg-sky-100 text-black-pearl',
         title: 'Please select product variant!',
       })
+    } else if (!auth?.isAuth) {
+      navigate('/sign-in')
     } else {
       const payload: ICartPayload = {
         action: 'add',
@@ -89,55 +112,29 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
         </h3>
       </div>
 
-      {keyAttributes &&
-        keyAttributes.map((attribute) => (
-          <div key={attribute}>
-            {attribute !== 'non_specify' && (
-              <div
-                className={clsx(
-                  'mt-3 flex w-full justify-between gap-20 lg:mt-8 lg:justify-start',
-                  attribute === 'size' ? 'items-center' : 'items-start'
-                )}
-                key={attribute}
-              >
-                <p className="w-20 text-sm uppercase tracking-wide">{attribute}</p>
-                <div className="w-full space-y-3.5">
-                  {attribute !== 'size' && (
-                    <>
-                      {selectedAttribute ? (
-                        <span className="text-xs font-semibold">
-                          {selectedAttribute.attributes[attribute].name}
-                        </span>
-                      ) : (
-                        <span className="text-xs font-semibold">Select {attribute}:</span>
-                      )}
-                    </>
-                  )}
+      {shadeAttribute && shadeAttribute.length > 0 && (
+        <ShadeAttribute
+          attributes={shadeAttribute}
+          selected={selectedAttribute?.attributes.shade || null}
+          handleSelectAttribute={handleSelectAttribute}
+        />
+      )}
 
-                  <ul className="flex w-full gap-2.5">
-                    {valueAttributes &&
-                      valueAttributes.map((value) => (
-                        <li
-                          className={clsx(
-                            'h-10 w-10 cursor-pointer p-1',
-                            attribute === 'shade' &&
-                              selectedAttribute?.attributes[attribute].name === value.name
-                              ? 'rounded-full border border-sherpa-blue'
-                              : ''
-                          )}
-                          key={value.name}
-                          onClick={() => handleSelectAttribute(attribute, value)}
-                        >
-                          {attribute === 'shade' && <ShadeAttribute shade={value} />}
-                          {attribute === 'size' && <SizeAttribute size={value} />}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+      {sizeAttribute && sizeAttribute.length > 0 && (
+        <SizeAttribute
+          attributes={sizeAttribute}
+          selected={selectedAttribute?.attributes.size || null}
+          handleSelectAttribute={handleSelectAttribute}
+        />
+      )}
+
+      {variantAttribute && variantAttribute.length > 0 && (
+        <VariantAttribute
+          attributes={variantAttribute}
+          selected={selectedAttribute?.attributes.variant || null}
+          handleSelectAttribute={handleSelectAttribute}
+        />
+      )}
 
       <div className="mt-3 flex w-full items-center justify-between gap-20 lg:mt-8 lg:justify-start">
         <p className="w-20 text-sm uppercase tracking-wide">Quantity</p>

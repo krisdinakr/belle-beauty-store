@@ -8,6 +8,11 @@ interface IAttributes {
   }
 }
 
+export interface IAttributeItem {
+  name: string
+  value: string
+}
+
 export interface IImage {
   isCover: boolean
   url: string
