@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuthContext } from '@/hooks/useAuth'
 import MenuItem from '@/components/MenuItem'
@@ -12,6 +12,7 @@ import { authService } from '@/services'
 function Navbar() {
   const location = useLocation()
   const auth = useAuthContext()
+  const navigate = useNavigate()
   const [activeMenu, setActiveMenu] = useState<string>('')
   const [isDropdown, setIsDropdown] = useState<boolean>(false)
 
@@ -30,6 +31,7 @@ function Navbar() {
           token: null,
           isAuth: false,
         })
+        navigate('/')
       }
     }
   }
