@@ -1,8 +1,9 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Layout from '@/layout'
 import { protectedRoutes, routes } from './router/routes'
 import RequiredAuth from './router/RequiredAuth'
+const PageNotFound = React.lazy(() => import('@/pages/page-not-found'))
 
 const App = () => (
   <Suspense>
@@ -28,6 +29,11 @@ const App = () => (
             />
           ))}
         </Route>
+
+        <Route
+          path="*"
+          element={<PageNotFound />}
+        />
       </Route>
     </Routes>
   </Suspense>
