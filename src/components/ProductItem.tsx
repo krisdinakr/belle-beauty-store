@@ -12,7 +12,7 @@ function ProductItem({
 
   return (
     <Link
-      to={`/${encodeURI(slug)}`}
+      to={`/product/${encodeURI(slug)}`}
       className="relative h-full w-full"
     >
       <div className="rounded p-2 hover:shadow">

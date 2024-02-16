@@ -32,7 +32,7 @@ export const routes: Array<PathRouteProps> = [
     element: <Brand />,
   },
   {
-    path: '/:slug',
+    path: '/product/:slug',
     element: <ProductDetail />,
   },
 ]
