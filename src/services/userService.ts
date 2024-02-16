@@ -34,6 +34,11 @@ export const userService = {
           description: res.message,
         })
       } else {
+        toast({
+          className: 'bg-green-200',
+          title: 'Success!',
+          description: 'Successfully added products to cart.',
+        })
         return res
       }
     } catch (error: any) {
