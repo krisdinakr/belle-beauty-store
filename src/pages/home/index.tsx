@@ -1,5 +1,5 @@
 import Hero from '@/components/Hero'
-import FeaturedCategory from '@/components/FeaturedCategory'
+import FeaturedCategorySection from '@/components/FeaturedCategorySection'
 import NewProductsSection from '@/components/NewProductsSection'
 
 function Home() {
@@ -7,7 +7,7 @@ function Home() {
     <div>
       <Hero />
       <NewProductsSection />
-      <FeaturedCategory />
+      <FeaturedCategorySection />
     </div>
   )
 }

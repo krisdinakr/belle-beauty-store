@@ -5,7 +5,7 @@ import BathBodyImg from '@/assets/images/bathbody.webp'
 import FragranceImg from '@/assets/images/fragrance.webp'
 import { Link } from 'react-router-dom'
 
-function FeaturedCategory() {
+function FeaturedCategorySection() {
   return (
     <section className="h-auto w-full space-y-8 p-5 lg:px-20 lg:py-[70px]">
       <h2 className="text-2xl font-bold text-sherpa-blue sm:text-3xl">Featured Categories</h2>
@@ -38,7 +38,7 @@ function FeaturedCategory() {
   )
 }
 
-export default FeaturedCategory
+export default FeaturedCategorySection
 
 const categories: { id: number; title: string; image: string; slug: string }[] = [
   {
