@@ -10,6 +10,7 @@ const Brand = React.lazy(() => import('@/pages/brand'))
 const ProductDetail = React.lazy(() => import('@/pages/product-detail'))
 const Cart = React.lazy(() => import('@/pages/cart'))
 const MyAccount = React.lazy(() => import('@/pages/my-account'))
+const MyAddress = React.lazy(() => import('@/pages/my-address'))
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -46,5 +47,9 @@ export const protectedRoutes: Array<PathRouteProps> = [
   {
     path: '/my-account',
     element: <MyAccount />,
+  },
+  {
+    path: '/my-address',
+    element: <MyAddress />,
   },
 ]
