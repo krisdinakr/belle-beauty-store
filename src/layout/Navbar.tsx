@@ -8,6 +8,7 @@ import { SearchIcon, UserCircle2Icon, ShoppingBagIcon, ChevronDown, LogOutIcon }
 import MenuIcon from '@/assets/icons/menu.svg?react'
 import CloseIcon from '@/assets/icons/close.svg?react'
 import { authService } from '@/services'
+import MenuItemMobile from '@/components/MenuItemMobile'
 
 function Navbar() {
   const location = useLocation()
@@ -34,11 +35,6 @@ function Navbar() {
         navigate('/')
       }
     }
-  }
-
-  const changeRoute = async (link: string) => {
-    navigate(link)
-    setIsDropdown(false)
   }
 
   return (
@@ -123,23 +119,18 @@ function Navbar() {
         {isDropdown ? (
           <div className="relative lg:hidden">
             <div className="fixed bottom-0 left-0 right-0 top-0 bg-white">
-              <div className="h-full w-full px-5">
-                <div className="flex h-16 w-full items-center justify-end">
+              <div className="h-full w-full">
+                <div className="flex h-16 w-full items-center justify-end px-5">
                   <CloseIcon
                     className="lg:hidden"
                     onClick={() => setIsDropdown(!isDropdown)}
                   />
                 </div>
-                <ul className="flex flex-col items-start text-xl font-medium">
-                  <li
-                    className="w-full cursor-pointer border-b py-8"
-                    onClick={() => changeRoute('/my-account')}
-                  >
-                    My Account
-                  </li>
-                  <li className="w-full cursor-pointer border-b py-8">Categories</li>
-                  <li className="w-full cursor-pointer border-b py-8">Brands</li>
-                </ul>
+                <MenuItemMobile
+                  activeMenu={activeMenu}
+                  setActiveMenu={setActiveMenu}
+                  setIsDropdown={setIsDropdown}
+                />
               </div>
             </div>
           </div>
