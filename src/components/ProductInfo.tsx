@@ -9,11 +9,11 @@ import ShadeAttribute from './ShadeAttribute'
 import SizeAttribute from './SizeAttribute'
 import ProductInfoTab from './ProductInfoTab'
 import { Button } from './ui/button'
-import { toast } from './ui/use-toast'
 import { ICartPayload } from '@/types/Cart'
 import { userService } from '@/services'
 import { useAuthContext } from '@/hooks/useAuth'
 import VariantAttribute from './VariantAttribute'
+import { useToast } from '@/hooks/useToast'
 
 function ProductInfo({ product }: { product: IProductItemProps }) {
   const auth = useAuthContext()
@@ -76,11 +76,13 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
 
   const handleAddProductToCart = async () => {
     if (!selectedAttribute) {
-      toast({
-        className: 'bg-sky-100 text-black-pearl',
+      useToast.info({
         title: 'Please select product variant!',
       })
     } else if (!auth?.isAuth) {
+      useToast.info({
+        title: 'Please sign in first.',
+      })
       navigate('/sign-in')
     } else {
       const payload: ICartPayload = {
@@ -95,8 +97,7 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
 
   const handleBuyProduct = () => {
     if (!selectedAttribute) {
-      toast({
-        className: 'bg-sky-100 text-black-pearl',
+      useToast.info({
         title: 'Please select product variant!',
       })
     }

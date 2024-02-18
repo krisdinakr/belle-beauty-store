@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuthApi } from '@/constants'
 import { postRequest, getRequest } from './baseService'
-import { toast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/useToast'
 
 interface IUserPayload {
   email: string
@@ -14,17 +14,16 @@ export const authService = {
   signIn: async function (payload: Pick<IUserPayload, 'email' | 'password'>) {
     try {
       const res = await postRequest(AuthApi.SignIn, payload)
-      if (res.status !== 200) {
-        toast({
-          title: 'Uh oh! Something went wrong.',
+      if (res.error) {
+        useToast.error({
           description: res.message,
         })
         return
       }
+
       return res.data
     } catch (error: any) {
-      toast({
-        title: 'Uh oh! Something went wrong.',
+      useToast.error({
         description: error.message || error.response?.data?.message,
       })
     }
@@ -34,16 +33,15 @@ export const authService = {
     try {
       const res = await getRequest(AuthApi.SignOut)
       if (res.error) {
-        toast({
-          title: 'Uh oh! Something went wrong.',
+        useToast.error({
           description: 'There was a problem with your request.',
         })
-      } else {
-        return res
+        return
       }
+
+      return res
     } catch (error) {
-      toast({
-        title: 'Uh oh! Something went wrong.',
+      useToast.error({
         description: `${error}`,
       })
     }
@@ -53,20 +51,18 @@ export const authService = {
     try {
       const res = await postRequest(AuthApi.SignUp, payload)
       if (res.error) {
-        toast({
-          title: 'Uh oh! Something went wrong.',
+        useToast.error({
           description: 'There was a problem with your request.',
         })
-      } else {
-        toast({
-          title: 'Success!',
-          description: 'Account create successfully',
-        })
+        return
       }
+
+      useToast.success({
+        description: 'Account create successfully',
+      })
       return res.data
     } catch (error) {
-      toast({
-        title: 'Error',
+      useToast.error({
         description: `${error}`,
       })
     }
