@@ -22,9 +22,9 @@ function MyAddress() {
   }, [data])
 
   return (
-    <section className="min-h-screen w-full overflow-hidden p-5 sm:px-20 sm:py-5">
+    <section>
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-sherpa-blue sm:text-3xl">Shipping Address</h2>
+        <h2 className="text-xl font-semibold text-sherpa-blue">Shipping Address</h2>
 
         {isLoading && <AddressCardSkeleton />}
 

@@ -30,7 +30,7 @@ function AddressCard({
     <div className="flex w-full flex-col justify-between lg:flex-row">
       <p className="w-32 text-wrap font-medium">{address.name}</p>
       <div className="w-8/12">
-        <p className="text-lg font-semibold">
+        <p className="text-md font-semibold">
           {address.recipientName}{' '}
           {address.isDefault && (
             <span className="text-base font-normal text-sherpa-blue">(Default Address)</span>
