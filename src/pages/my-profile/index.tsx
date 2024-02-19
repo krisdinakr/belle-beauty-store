@@ -257,6 +257,7 @@ function MyProfile() {
         </UploadWidget>
       </div>
 
+      {isLoading && <Skeleton className="mt-5 h-[550px] w-full" />}
       {!isLoading && (
         <ProfileForm
           profileData={profileData}
