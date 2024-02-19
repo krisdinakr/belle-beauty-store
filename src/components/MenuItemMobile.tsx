@@ -32,9 +32,9 @@ function MenuItemMobile({
       <ul className="flex flex-col items-start bg-white px-5 text-xl font-medium transition-all duration-300">
         <li
           className="w-full cursor-pointer border-b py-8"
-          onClick={() => changeRoute('/my-account')}
+          onClick={() => changeRoute('/my-profile')}
         >
-          My Account
+          My Profile
         </li>
         <li
           className="w-full cursor-pointer border-b py-8"

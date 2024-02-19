@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from '@/layout'
 import { protectedRoutes, routes } from './router/routes'
 import RequiredAuth from './router/RequiredAuth'
+import AccountLayout from './pages/account-layout'
 const PageNotFound = React.lazy(() => import('@/pages/page-not-found'))
 
 const App = () => (
@@ -22,12 +23,25 @@ const App = () => (
 
         {/* required auth route */}
         <Route element={<RequiredAuth />}>
-          {protectedRoutes.map((routeProps) => (
-            <Route
-              {...routeProps}
-              key={routeProps.path as string}
-            />
-          ))}
+          {protectedRoutes.map((routeProps) => {
+            if (routeProps.path === '/cart') {
+              return (
+                <Route
+                  {...routeProps}
+                  key={routeProps.path as string}
+                />
+              )
+            }
+
+            return (
+              <Route
+                element={<AccountLayout />}
+                key={routeProps.path as string}
+              >
+                <Route {...routeProps} />
+              </Route>
+            )
+          })}
         </Route>
 
         <Route

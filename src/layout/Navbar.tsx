@@ -78,11 +78,11 @@ function Navbar() {
                 <ul className="space-y-3 text-sm">
                   <li>
                     <Link
-                      to="/my-account"
+                      to="/my-profile"
                       className="flex cursor-pointer items-center gap-0.5"
                     >
                       <UserCircle2Icon className="h-5 text-black-pearl" />
-                      <span>My Account</span>
+                      <span>My Profile</span>
                     </Link>
                   </li>
                   <li>
