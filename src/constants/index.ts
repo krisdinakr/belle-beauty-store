@@ -6,6 +6,7 @@ export enum AuthApi {
 
 export enum UserApi {
   Me = '/me',
+  Profile = '/me/profile',
   Cart = '/users/me/carts',
   Address = '/users/me/address',
 }

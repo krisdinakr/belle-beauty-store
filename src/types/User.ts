@@ -4,4 +4,7 @@ export interface IUser {
   firstName: string
   lastName: string
   role: number
+  phoneNumber: string
+  photo: string
+  dateOfBirth: number
 }
