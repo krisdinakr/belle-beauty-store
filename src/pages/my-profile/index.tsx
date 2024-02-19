@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SyntheticEvent, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import useSWR from 'swr'
+import useSWR, { KeyedMutator } from 'swr'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { format, getTime } from 'date-fns'
@@ -39,10 +39,10 @@ const formSchema = z.object({
 
 function ProfileForm({
   profileData,
-  onSubmit,
+  mutate,
 }: {
   profileData: IUser
-  onSubmit: (values: z.infer<typeof formSchema>) => void
+  mutate: KeyedMutator<undefined>
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,6 +55,15 @@ function ProfileForm({
       dateOfBirth: profileData?.dateOfBirth ? new Date(profileData.dateOfBirth) : undefined,
     },
   })
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const payload = {
+      ...values,
+      dateOfBirth: getTime(values.dateOfBirth),
+    }
+    const res = await userService.updateProfile(payload)
+    if (!res.error) mutate()
+  }
 
   return (
     <Form {...form}>
@@ -200,23 +209,11 @@ function MyProfile() {
       })
       return
     }
-    const payload = {
-      email: profileData.email,
-      firstName: profileData.firstName,
-      lastName: profileData.lastName,
-      photo: result?.info?.secure_url,
-      phoneNumber: profileData?.phoneNumber,
-      dateOfBirth: new Date(profileData?.dateOfBirth),
-    }
-    onSubmit(payload)
+    updatePhoto(result?.info?.secure_url)
   }
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const payload = {
-      ...values,
-      dateOfBirth: getTime(values.dateOfBirth),
-    }
-    const res = await userService.updateProfile(payload)
+  const updatePhoto = async (urlImg: string) => {
+    const res = await userService.updateProfile({ photo: urlImg })
     if (!res.error) mutate()
   }
 
@@ -261,7 +258,7 @@ function MyProfile() {
       {!isLoading && (
         <ProfileForm
           profileData={profileData}
-          onSubmit={onSubmit}
+          mutate={mutate}
         />
       )}
     </section>

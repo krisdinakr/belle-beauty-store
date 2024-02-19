@@ -24,7 +24,7 @@ export const userService = {
     }
   },
 
-  updateProfile: async (data: Omit<IUser, '_id' | 'role'>) => {
+  updateProfile: async (data: Partial<Omit<IUser, '_id' | 'role'>>) => {
     try {
       const res = await postRequest(UserApi.Profile, data)
       if (res.error) {
