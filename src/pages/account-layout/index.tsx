@@ -51,7 +51,7 @@ function AccountLayout() {
               <Link
                 key={item.path}
                 to={item.path}
-                className="flex w-full flex-col items-center justify-center gap-2 px-3 py-5 lg:flex-row lg:justify-start lg:border-b"
+                className="flex w-full flex-col items-center justify-center gap-2 px-3 py-5 last:border-none lg:flex-row lg:justify-start lg:border-b"
               >
                 {item.icon}
                 <span className="text-center text-sm">{item.name}</span>
