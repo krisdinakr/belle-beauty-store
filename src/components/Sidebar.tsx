@@ -2,26 +2,29 @@ import { memo, useMemo } from 'react'
 
 import { Accordion } from '@/components/ui/accordion'
 import SidebarHeader from '@/components/SidebarHeader'
-import { ICategory, ICategoryWithChildren } from '@/types/Category'
+import { ICategoryWithChildren } from '@/types/Category'
+import { useParams } from 'react-router-dom'
 
 const Sidebar = memo(function Sidebar({
   data,
-  activeMenu,
   handleChangeRoute,
 }: {
   data: ICategoryWithChildren
-  activeMenu?: ICategory
   handleChangeRoute: (i: string) => void
 }) {
+  const { slug } = useParams()
+
   const defaultValue = useMemo(() => {
-    if (activeMenu && activeMenu.parents && activeMenu.parents.length === 2) {
-      return activeMenu.name
-    } else if (activeMenu && activeMenu.parents && activeMenu.parents.length > 2) {
-      const index = activeMenu.parents.length - 1
-      return activeMenu.parents[index].name
+    if (data && data.children && Array.isArray(data.children)) {
+      for (let i = 0; i < data.children.length; i++) {
+        if (data.children[i].slug === slug) {
+          return data.children[i].name
+        }
+        const child = data.children[i].children.find((c) => c.slug === slug)
+        if (child) return data.children[i].name
+      }
     }
-    return undefined
-  }, [activeMenu])
+  }, [data, slug])
 
   return (
     <aside>
@@ -30,7 +33,7 @@ const Sidebar = memo(function Sidebar({
         <Accordion
           type="single"
           collapsible
-          defaultValue={defaultValue!}
+          defaultValue={defaultValue}
         >
           {data?.children?.map((i) => (
             <SidebarHeader
