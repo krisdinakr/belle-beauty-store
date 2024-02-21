@@ -1,5 +1,6 @@
 import ProductItem from '@/components/ProductItem'
 import { IProductItemProps } from '@/types/Products'
+import { PackageSearchIcon } from 'lucide-react'
 
 function ProductList({ products }: { products: IProductItemProps[] }) {
   return (
@@ -14,7 +15,12 @@ function ProductList({ products }: { products: IProductItemProps[] }) {
             <ProductItem data={product} />
           </div>
         ))}
-      {products && products.length === 0 && <p>no products</p>}
+      {products && products.length === 0 && (
+        <div className="flex w-full flex-col items-center justify-center gap-2.5 p-2">
+          <PackageSearchIcon className="h-32 w-32 stroke-[0.5px] text-black-pearl" />
+          <p className="capitalize">no products found.</p>
+        </div>
+      )}
     </section>
   )
 }
