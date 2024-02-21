@@ -16,7 +16,7 @@ function ProductItem({
       className="relative h-full w-full"
     >
       <div className="rounded p-2 hover:shadow">
-        <div className="h-[78%] max-h-[23rem] min-h-[208px] w-full max-w-[20.5rem] lg:min-h-[312px]">
+        <div className="h-[78%] max-h-[23rem] min-h-[208px] w-full max-w-[20.5rem]">
           <img
             src={imgCover?.url}
             alt="product"

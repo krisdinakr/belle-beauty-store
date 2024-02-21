@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useSWR from 'swr'
 
@@ -20,10 +20,9 @@ function Brand() {
   }, [slug])
   const [filter, setFilter] = useState<{ [key: string]: string }>({ brand: encodeSlug })
 
-  const { data, isLoading } = useSWR(
-    `${SearchApi.search}?filter=${JSON.stringify(filter)}`,
-    getRequest
-  )
+  useEffect(() => {
+    setFilter({ brand: encodeSlug })
+  }, [encodeSlug])
 
   const { data: categories, isLoading: isLoadingCategories } = useSWR(
     `${CategoryApi.distinctBrand}?brand=${encodeSlug}`,
@@ -32,6 +31,11 @@ function Brand() {
 
   const { data: detailBrand, isLoading: isLoadingDetailBrand } = useSWR(
     `${BrandApi.brand}/${encodeSlug}`,
+    getRequest
+  )
+
+  const { data, isLoading } = useSWR(
+    `${SearchApi.search}?filter=${JSON.stringify(filter)}`,
     getRequest
   )
 

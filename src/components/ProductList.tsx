@@ -8,7 +8,7 @@ function ProductList({ products }: { products: IProductItemProps[] }) {
         products.length > 0 &&
         products.map((product) => (
           <div
-            className="w-[11rem] lg:h-[28rem] lg:w-[15rem]"
+            className="w-[11rem] lg:w-[15rem]"
             key={product._id}
           >
             <ProductItem data={product} />

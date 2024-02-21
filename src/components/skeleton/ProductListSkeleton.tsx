@@ -6,7 +6,7 @@ function ProductListSkeleton() {
       {Array.from(Array(6)).map((_, index) => (
         <Skeleton
           key={index}
-          className="h-[16rem] w-[11rem] lg:h-[28rem] lg:w-[15rem]"
+          className="h-[16rem] w-[11rem] lg:w-[15rem]"
         />
       ))}
     </div>
