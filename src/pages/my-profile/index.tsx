@@ -218,7 +218,7 @@ function MyProfile() {
   }
 
   return (
-    <section>
+    <section className="rounded bg-white p-4 shadow">
       <h2 className="text-center text-xl font-semibold text-sherpa-blue">Edit Profile</h2>
       <div className="mt-2.5 flex w-full flex-col items-center justify-center border-b py-6">
         <div className="h-16 w-16">

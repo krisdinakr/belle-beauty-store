@@ -22,7 +22,7 @@ function MyAddress() {
   }, [data])
 
   return (
-    <section>
+    <section className="rounded bg-white p-4 shadow">
       <div className="space-y-6">
         <h2 className="text-xl font-semibold text-sherpa-blue">Shipping Address</h2>
 

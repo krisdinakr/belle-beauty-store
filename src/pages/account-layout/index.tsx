@@ -46,7 +46,7 @@ function AccountLayout() {
       </div>
       <div className="-mt-20 mb-5 space-y-10 p-5 sm:px-20 lg:-mt-32 lg:mb-20">
         <div className="flex w-full flex-col gap-8 lg:flex-row">
-          <div className="flex w-full rounded bg-white p-2 shadow lg:w-3/12 lg:flex-col">
+          <div className="flex h-max w-full rounded bg-white p-2 shadow lg:w-3/12 lg:flex-col">
             {MENU_LIST.map((item) => (
               <Link
                 key={item.path}
@@ -59,7 +59,7 @@ function AccountLayout() {
             ))}
           </div>
 
-          <div className="rounded bg-white p-4 shadow lg:w-9/12">
+          <div className="lg:w-9/12">
             <Outlet />
           </div>
         </div>
