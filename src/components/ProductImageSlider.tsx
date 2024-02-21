@@ -35,7 +35,7 @@ const ProductImageSlider = memo(function ProductImageSlider({
   }, [images])
 
   return (
-    <div className="relative h-auto w-full lg:w-[400px]">
+    <div className="relative h-auto w-full select-none lg:w-[400px]">
       <div className="h-auto min-h-[400px] w-full">
         <picture>
           <source type="image/webp" />

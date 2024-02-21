@@ -75,7 +75,10 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
   }
 
   const handleAddProductToCart = async () => {
-    if (!selectedAttribute) {
+    if (
+      (shadeAttribute.length > 0 || sizeAttribute.length > 0 || variantAttribute.length > 0) &&
+      !selectedAttribute
+    ) {
       useToast.info({
         title: 'Please select product variant!',
       })
@@ -85,12 +88,20 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
       })
       navigate('/sign-in')
     } else {
+      let combination
+      if (shadeAttribute.length > 0 || sizeAttribute.length > 0 || variantAttribute.length > 0) {
+        combination = selectedAttribute ? selectedAttribute._id : ''
+      } else {
+        combination = product.combinations[0]._id
+      }
+
       const payload: ICartPayload = {
         action: 'add',
         product: product._id,
-        combination: selectedAttribute?._id || '',
+        combination,
         quantity,
       }
+
       await userService.updateCart(payload)
     }
   }
