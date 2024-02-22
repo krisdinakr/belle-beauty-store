@@ -32,3 +32,7 @@ export enum SearchApi {
 export enum ProductApi {
   product = '/products',
 }
+
+export enum OrderApi {
+  order = '/orders',
+}

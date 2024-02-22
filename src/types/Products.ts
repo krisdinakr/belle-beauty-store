@@ -1,7 +1,7 @@
 import { IBrand } from './Brand'
 import { ICategory } from './Category'
 
-interface IAttributes {
+export interface IAttributes {
   [key: string]: {
     value: string
     name: string

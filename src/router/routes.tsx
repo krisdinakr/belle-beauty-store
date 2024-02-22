@@ -11,6 +11,7 @@ const ProductDetail = React.lazy(() => import('@/pages/product-detail'))
 const Cart = React.lazy(() => import('@/pages/cart'))
 const MyAddress = React.lazy(() => import('@/pages/my-address'))
 const MyProfile = React.lazy(() => import('@/pages/my-profile'))
+const MyOrders = React.lazy(() => import('@/pages/my-orders'))
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -51,5 +52,9 @@ export const protectedRoutes: Array<PathRouteProps> = [
   {
     path: '/my-profile',
     element: <MyProfile />,
+  },
+  {
+    path: '/my-orders',
+    element: <MyOrders />,
   },
 ]
