@@ -74,7 +74,7 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
     }
   }
 
-  const handleAddProductToCart = async () => {
+  const handleAddProductToCart = async (isNavigate: boolean = false) => {
     if (
       (shadeAttribute.length > 0 || sizeAttribute.length > 0 || variantAttribute.length > 0) &&
       !selectedAttribute
@@ -102,15 +102,8 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
         quantity,
       }
 
-      await userService.updateCart(payload)
-    }
-  }
-
-  const handleBuyProduct = () => {
-    if (!selectedAttribute) {
-      useToast.info({
-        title: 'Please select product variant!',
-      })
+      const res = await userService.updateCart(payload)
+      if (res && isNavigate) navigate('/cart')
     }
   }
 
@@ -182,13 +175,13 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
       <div className="mt-3 flex w-full select-none items-center gap-5 lg:mt-8">
         <Button
           className="rounded border border-sherpa-blue bg-white uppercase text-black-pearl hover:bg-twilight-blue/50"
-          onClick={handleAddProductToCart}
+          onClick={() => handleAddProductToCart()}
         >
           add to cart
         </Button>
         <Button
           className="rounded bg-sherpa-blue uppercase"
-          onClick={handleBuyProduct}
+          onClick={() => handleAddProductToCart(true)}
         >
           buy now
         </Button>
