@@ -67,8 +67,8 @@ function Category() {
       </div>
 
       <div className="relative block py-2">
-        <div className="mx-auto my-0 flex w-full gap-12">
-          <div className="hidden w-2/12 min-w-40 sm:block">
+        <div className="mx-auto my-0 flex w-full flex-col gap-5 sm:flex-row sm:gap-12">
+          <div className="w-full min-w-40 sm:block sm:w-2/12">
             {selectedCategory ? (
               <Sidebar
                 data={selectedCategory}
