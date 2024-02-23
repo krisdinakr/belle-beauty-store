@@ -5,6 +5,7 @@ import { protectedRoutes, routes } from './router/routes'
 import RequiredAuth from './router/RequiredAuth'
 import AccountLayout from './pages/account-layout'
 const PageNotFound = React.lazy(() => import('@/pages/page-not-found'))
+const Checkout = React.lazy(() => import('@/pages/checkout'))
 
 const App = () => (
   <Suspense>
@@ -47,6 +48,16 @@ const App = () => (
         <Route
           path="*"
           element={<PageNotFound />}
+        />
+      </Route>
+
+      <Route
+        path="/"
+        element={<RequiredAuth />}
+      >
+        <Route
+          path="checkout"
+          element={<Checkout />}
         />
       </Route>
     </Routes>
