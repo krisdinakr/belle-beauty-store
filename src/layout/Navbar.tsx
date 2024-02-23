@@ -70,7 +70,7 @@ function Navbar() {
             <HoverCard>
               <HoverCardTrigger className="cursor-pointer">
                 <div className="flex items-center justify-center gap-0.5">
-                  {auth.user}
+                  {auth.user ? JSON.parse(auth.user).name : 'No Name'}
                   <ChevronDown className="h-5" />
                 </div>
               </HoverCardTrigger>

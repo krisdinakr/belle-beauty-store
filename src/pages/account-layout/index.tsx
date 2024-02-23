@@ -39,9 +39,19 @@ function AccountLayout() {
       <div className="h-48 bg-sky-200 p-5 sm:px-20 sm:py-16 lg:h-80">
         <div className="flex w-full items-center gap-2.5">
           <div className="h-16 w-16">
-            <UserCircle2Icon className="h-full w-full" />
+            {auth?.user && JSON.parse(auth.user).photo ? (
+              <img
+                src={JSON.parse(auth.user).photo}
+                alt="user"
+                className="h-full w-full rounded-full object-cover object-center"
+              />
+            ) : (
+              <UserCircle2Icon className="h-full w-full" />
+            )}
           </div>
-          <h2 className="truncate text-xl font-bold capitalize">{auth?.user}</h2>
+          <h2 className="truncate text-xl font-bold capitalize">
+            {auth?.user ? JSON.parse(auth.user).name : 'No Name'}
+          </h2>
         </div>
       </div>
       <div className="-mt-20 mb-5 space-y-10 p-5 sm:px-20 lg:-mt-32 lg:mb-20">
