@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@/hooks/useAuth'
 import MenuItem from '@/components/MenuItem'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
-import { SearchIcon, UserCircle2Icon, ShoppingBagIcon, ChevronDown, LogOutIcon } from 'lucide-react'
+import { UserCircle2Icon, ShoppingBagIcon, ChevronDown, LogOutIcon } from 'lucide-react'
 import MenuIcon from '@/assets/icons/menu.svg?react'
 import CloseIcon from '@/assets/icons/close.svg?react'
 import { authService } from '@/services'
@@ -57,13 +57,13 @@ function Navbar() {
       </li>
 
       <div className="flex w-full items-center justify-end gap-3">
-        <div className="relative hidden items-center rounded  border border-slate-200 px-2.5 py-1 lg:flex">
+        {/* <div className="relative hidden items-center rounded  border border-slate-200 px-2.5 py-1 lg:flex">
           <SearchIcon className="mr-1 h-4 text-black-pearl" />
           <input
             type="text"
             placeholder="Search"
           />
-        </div>
+        </div> */}
 
         {auth?.isAuth ? (
           <div className="hidden lg:block">
