@@ -9,6 +9,7 @@ import BrandBanner from '@/components/BrandBanner'
 import SidebarSkeleton from '@/components/skeleton/SidebarSkeleton'
 import Sidebar from '@/components/Sidebar'
 import { IBrand } from '@/types/Brand'
+import BrandBannerSkeleton from '@/components/skeleton/BrandBannerSkeleton'
 import { IProductItemProps } from '@/types/Products'
 import { ICategoryWithChildren } from '@/types/Category'
 import { BrandApi, CategoryApi, SearchApi } from '@/constants'
@@ -65,7 +66,7 @@ function Brand() {
 
   return (
     <section className="min-h-screen overflow-hidden p-5 sm:px-20 sm:py-5">
-      {isLoadingDetailBrand ? <p>loading</p> : <BrandBanner data={brand} />}
+      {isLoadingDetailBrand ? <BrandBannerSkeleton /> : <BrandBanner data={brand} />}
 
       <div className="relative block py-2">
         <div className="mx-auto my-0 flex w-full gap-12">
