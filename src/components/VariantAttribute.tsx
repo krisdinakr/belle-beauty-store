@@ -11,9 +11,9 @@ function VariantAttribute({
   handleSelectAttribute: (type: 'shade' | 'size' | 'variant', name: string | number) => void
 }) {
   return (
-    <div className="mt-3 flex w-full items-start justify-between gap-20 lg:mt-8 lg:justify-start">
+    <div className="mt-3 flex w-full items-start gap-20 lg:mt-8 lg:justify-start">
       <p className="w-20 text-sm uppercase tracking-wide">Variant</p>
-      <div className="w-full space-y-3">
+      <div className="w-min space-y-3 sm:w-auto">
         <ul className="flex w-full flex-wrap gap-2">
           {attributes.map((variant) => (
             <li

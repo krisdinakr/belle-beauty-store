@@ -141,7 +141,7 @@ function ProductInfo({ product }: { product: IProductItemProps }) {
         />
       )}
 
-      <div className="mt-3 flex w-full items-center justify-between gap-20 lg:mt-8 lg:justify-start">
+      <div className="mt-3 flex w-full items-center gap-20 lg:mt-8 lg:justify-start">
         <p className="w-20 text-sm uppercase tracking-wide">Quantity</p>
         <div className="flex w-[150px] items-center justify-between rounded-sm border border-slate-300 px-3 py-1">
           <button

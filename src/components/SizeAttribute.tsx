@@ -11,9 +11,9 @@ function SizeAttribute({
   handleSelectAttribute: (type: 'shade' | 'size' | 'variant', name: string | number) => void
 }) {
   return (
-    <div className="mt-3 flex w-full items-start justify-between gap-20 lg:mt-8 lg:justify-start">
+    <div className="mt-3 flex w-full items-start gap-20 lg:mt-8 lg:justify-start">
       <p className="w-20 text-sm uppercase tracking-wide">Size</p>
-      <div className="w-full space-y-3">
+      <div className="w-auto space-y-3">
         <ul className="flex w-full gap-2">
           {attributes.map((size) => (
             <li
