@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import useSWR from 'swr'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CartItem from '@/components/CartItem'
 import { Button } from '@/components/ui/button'
 import CartListSkeleton from '@/components/skeleton/CartListSkeleton'
@@ -8,9 +8,11 @@ import { UserApi } from '@/constants'
 import { getRequest } from '@/services/baseService'
 import { ICart } from '@/types/Cart'
 import { userService } from '@/services'
+import { orderService } from '@/services/orderService'
 import { formatCurrency } from '@/utils'
 
 function Cart() {
+  const navigate = useNavigate()
   const [selectedCart, setSelectedCart] = useState<ICart[]>([])
   const { data, isLoading, mutate } = useSWR(UserApi.Cart, getRequest)
 
@@ -57,6 +59,17 @@ function Cart() {
     },
     [selectedCart]
   )
+
+  const handleCheckout = async () => {
+    const payload = {
+      cartId: selectedCart.map((i) => i._id),
+      totalPrice: grandPrice,
+    }
+    const res = await orderService.createOrder(payload)
+    if (!res.error) {
+      navigate('/checkout')
+    }
+  }
 
   return (
     <section className="h-auto min-h-[80vh] w-full p-5 sm:px-20 sm:py-5">
@@ -113,8 +126,9 @@ function Cart() {
             <Button
               className="mt-7 w-full bg-sherpa-blue font-semibold"
               disabled={grandPrice === 0}
+              onClick={handleCheckout}
             >
-              CHECKOUT ({cartData.length})
+              CHECKOUT ({selectedCart.length})
             </Button>
           </div>
         </div>

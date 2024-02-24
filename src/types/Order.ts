@@ -27,3 +27,8 @@ export interface IOrder {
   referenceCode: string
   createdAt: string
 }
+
+export interface IOrderPayload {
+  cartId: string[]
+  totalPrice: number
+}
