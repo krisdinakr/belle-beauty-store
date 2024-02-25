@@ -8,7 +8,10 @@ interface IProductInfoTabProps {
 
 function ProductInfoTab({ description, howToUse, ingredients }: IProductInfoTabProps) {
   return (
-    <Tabs defaultValue={infoTabList[0].name}>
+    <Tabs
+      defaultValue={infoTabList[0].name}
+      className="whitespace-pre-wrap"
+    >
       <TabsList className="w-full">
         {infoTabList.map((i) => (
           <TabsTrigger
